@@ -1,0 +1,102 @@
+/* ============================================================
+   Kedai Sarwo Echo — design tokens
+   Couche 1 primitifs -> couche 2 semantiques -> couche 3 composants.
+   Couleurs echantillonnees sur halo.jpeg / section2.jpeg (non devinees).
+   Tailles desktop mesurees a 1440px ; tailles mobile concues a 360px.
+   ============================================================ */
+
+:root{
+  /* ---------- COUCHE 1 — PRIMITIFS ---------- */
+  /* couleurs relevees pixel par pixel sur les maquettes */
+  --c-sage-500: #5A7168;  /* titres — 4.53:1 sur creme, AA */
+  --c-sage-600: #5C766D;  /* boutons — blanc dessus 4.92:1, AA */
+  --c-sage-700: #4A5D55;  /* survol bouton */
+  --c-sage-800: #3E5049;  /* petit texte sauge si besoin de marge */
+  --c-brick-500: #AC1A19;  /* script manuscrit + prix — 6.21:1 sur creme */
+  --c-brick-600: #8F1514;  /* survol lien brique */
+  --c-logo-red: #CB0D0D;  /* RESERVE au logo, jamais du texte */
+  --c-cream-100: #FBF7F3;  /* surface haute */
+  --c-cream-200: #F4EDE7;  /* fond principal (panneau) */
+  --c-rose-300: #E3DAD4;  /* cartes section 2 */
+  --c-taupe-400: #CEBCB2;  /* cadre de page, filets */
+  --c-brown-600: #6E5247;  /* texte courant — 6.12:1 sur creme */
+  --c-brown-400: #8A6E61;  /* texte secondaire */
+  --c-white: #FFFFFF;
+
+  --f-display: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
+  --f-script:  'Sriracha', 'Comic Sans MS', cursive;
+  --f-body:    'Lato', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --f-brand:   'Bad Script', 'Sriracha', cursive;  /* nom du resto en texte */
+
+  /* echelle typographique fluide 360 -> 1440 */
+  --t-h1: clamp(2.125rem, 1.542rem + 2.593vw, 3.875rem);
+  --t-h2: clamp(1.688rem, 1.354rem + 1.481vw, 2.688rem);
+  --t-h3: clamp(1.25rem, 1.125rem + 0.5556vw, 1.625rem);
+  --t-script-lg: clamp(1.5rem, 1.292rem + 0.9259vw, 2.125rem);
+  --t-eyebrow: clamp(1.062rem, 0.9583rem + 0.463vw, 1.375rem);
+  --t-body: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem);
+  --t-body-sm: clamp(0.875rem, 0.8333rem + 0.1852vw, 1rem);
+  --t-nav: 1rem;
+  --t-dish: clamp(1.062rem, 1rem + 0.2778vw, 1.25rem);
+  --t-price: clamp(1rem, 0.9583rem + 0.1852vw, 1.125rem);
+  --t-btn: clamp(1rem, 0.8958rem + 0.463vw, 1.1875rem);
+  --t-micro: clamp(0.75rem, 0.7292rem + 0.09259vw, 0.8125rem);
+
+  --lh-tight: 1.08;  --lh-snug: 1.25;  --lh-body: 1.5;  --lh-loose: 1.65;
+  --tr-wide: .14em;  --tr-tight: -.01em;
+
+  /* espacements fluides */
+  --s-sec-y: clamp(3.5rem, 2.5rem + 4.444vw, 6.5rem);
+  --s-gut: clamp(1.25rem, 0.375rem + 3.889vw, 3.875rem);
+  --s-stack: clamp(1.75rem, 1.417rem + 1.481vw, 2.75rem);
+  --s-card-p: clamp(1.5rem, 1.25rem + 1.111vw, 2.25rem);
+  --s-card-g: clamp(1.125rem, 0.5rem + 2.778vw, 3rem);
+  --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.5rem;
+  --s-6:2rem; --s-7:2.5rem; --s-8:3rem; --s-9:4rem;
+
+  --r-pill: 999px; --r-lg: 34px; --r-md: 18px; --r-sm: 10px;
+  --sh-btn: 0 6px 0 -2px rgba(74,93,85,.28), 0 10px 22px -12px rgba(46,32,25,.45);
+  --sh-card: 0 2px 3px rgba(110,82,71,.05), 0 18px 34px -22px rgba(110,82,71,.4);
+  --sh-float: 0 30px 60px -30px rgba(110,82,71,.5);
+
+  --ease-out: cubic-bezier(.22,1,.36,1);
+  --ease-soft: cubic-bezier(.32,.72,0,1);
+  --dur-1: .18s; --dur-2: .32s; --dur-3: .55s;
+
+  --wrap-max: 1440px;   /* largeur des maquettes */
+  --panel-max: 1316px;  /* panneau creme mesure: 1316 de 1440 */
+  --tap: 44px;          /* cible tactile minimale */
+
+  /* ---------- COUCHE 2 — SEMANTIQUES ---------- */
+  --bg-page: var(--c-taupe-400);
+  --bg-panel: var(--c-cream-200);
+  --bg-raised: var(--c-cream-100);
+  --bg-card: var(--c-rose-300);
+  --fg-title: var(--c-sage-500);
+  --fg-accent: var(--c-brick-500);
+  --fg-body: var(--c-brown-600);
+  --fg-muted: var(--c-brown-400);
+  --fg-on-accent: var(--c-white);
+  --line: var(--c-taupe-400);
+  --focus: var(--c-brick-500);
+
+  /* ---------- COUCHE 3 — COMPOSANTS ---------- */
+  --btn-bg: var(--c-sage-600);
+  --btn-bg-hover: var(--c-sage-700);
+  --btn-fg: var(--fg-on-accent);
+  --btn-h: clamp(48px, 3.2vw + 36px, 62px);
+  --btn-px: clamp(22px, 1.6vw + 16px, 34px);
+  --nav-fg: var(--c-brown-600);
+  --nav-fg-active: var(--c-sage-500);
+  --card-bg: var(--bg-card);
+  --card-title: var(--fg-accent);
+  --card-body: var(--fg-body);
+  --card-icon: var(--c-sage-500);
+  --lineart: rgba(110,82,71,.17);
+  --price-fg: var(--fg-accent);
+}
+
+/* Pas de mode sombre : l'identite du restaurant est une palette creme/sauge
+   chaude, sans equivalent sombre dans les maquettes. Les couleurs sont peintes
+   explicitement pour que le rendu soit identique quel que soit le theme systeme. */
+:root{ color-scheme: light; }

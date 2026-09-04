@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kedai Sarwo Echo — Seafood Segar di Pantai Pulang Sawal</title>
+<meta name="description" content="Rumah makan seafood di Pantai Pulang Sawal, Tepus, Gunungkidul. Lobster, kepiting, cumi dan ikan segar langsung dari laut ke meja Anda.">
+<meta name="theme-color" content="#F4EDE7">
+
+<link rel="icon" href="assets/img/brand/favicon.ico" sizes="any">
+<link rel="icon" href="assets/img/brand/favicon-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+
+<link rel="preload" href="assets/fonts/Baloo2-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Lato-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="skip">Langsung ke konten</a>
+
+<div class="page">
+<div class="panel">
+
+  <!-- ══════════════ NAVIGATION ══════════════ -->
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#" aria-label="Kedai Sarwo Echo — beranda">
+      <picture>
+        <source srcset="assets/img/brand/logo-short-96.avif 96w, assets/img/brand/logo-short-192.avif 192w" type="image/avif" sizes="66px">
+        <source srcset="assets/img/brand/logo-short-96.webp 96w, assets/img/brand/logo-short-192.webp 192w" type="image/webp" sizes="66px">
+        <img src="assets/img/brand/logo-short-192.png" alt="Kedai Sarwo Echo" width="66" height="62" fetchpriority="high" decoding="async">
+      </picture>
+    </a>
+
+    <nav class="nav__links" id="navLinks" aria-label="Menu utama">
+      <a href="#beranda" class="is-active" data-i18n="nav.home">Beranda</a>
+      <a href="#menu" data-i18n="nav.menu">Menu</a>
+      <a href="#tentang" data-i18n="nav.about">Tentang</a>
+      <a href="#kontak" data-i18n="nav.contact">Kontak</a>
+    </nav>
+
+    <div class="nav__end">
+      <!-- Bascule de langue -->
+      <div class="lang" role="group" aria-label="Bahasa / Language">
+        <button type="button" class="lang__btn is-on" data-lang="id" aria-pressed="true">ID</button>
+        <span class="lang__sep" aria-hidden="true"></span>
+        <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+
+      <!-- WhatsApp: toujours visible, y compris sur telephone -->
+      <a class="wa-mini" data-wa href="#" aria-label="Pesan lewat WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>
+        <span data-i18n="nav.order">Pesan</span>
+      </a>
+
+      <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="navLinks">
+        <span class="burger__box" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="sr" data-i18n="nav.toggle">Buka menu</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+  <!-- ══════════════ SECTION 1 — HERO ══════════════ -->
+  <section class="hero" id="beranda">
+    <div class="hero__text">
+      <h1 class="hero__title">
+        <span data-i18n="hero.t1">Kami ciptakan kenangan</span>
+        <em class="script" data-i18n="hero.t2">Seafood Segar</em>
+        <span data-i18n="hero.t3">untuk Anda!</span>
+      </h1>
+
+      <p class="hero__lede" data-i18n="hero.lede">Berawal dari kecintaan pada hasil laut segar, Kedai Sarwo Echo kini menjadi tempat untuk segala macam hidangan seafood yang lezat — dan masih banyak lagi.</p>
+
+      <a class="btn btn--wa" data-wa href="#">
+        <span class="btn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></span>
+        <span data-i18n="hero.cta">Pesan Sekarang</span>
+      </a>
+
+      <div class="pick">
+        <h2 class="pick__head"><span data-i18n="hero.pick">Pilihan Kami</span><i class="pick__rule" aria-hidden="true"></i></h2>
+        <ul class="pick__list" id="pickList"><!-- injecte depuis data/menu.json --></ul>
+      </div>
+    </div>
+
+    <!-- Compo hero: 7 calques independants, decoupes de 2.png -->
+    <div class="comp" id="heroComp" aria-hidden="true">
+      <div class="comp__box">
+        <picture class="comp__l comp__l--plate">
+          <source type="image/avif" srcset="assets/img/hero/hero-plate-560.avif 560w, assets/img/hero/hero-plate-900.avif 900w, assets/img/hero/hero-plate-1400.avif 1400w" sizes="(max-width:900px) 92vw, 58vw">
+          <source type="image/webp" srcset="assets/img/hero/hero-plate-560.webp 560w, assets/img/hero/hero-plate-900.webp 900w, assets/img/hero/hero-plate-1400.webp 1400w" sizes="(max-width:900px) 92vw, 58vw">
+          <img src="assets/img/hero/hero-plate-900.png" alt="" width="1680" height="1512" fetchpriority="high" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--stamp">
+          <source type="image/avif" srcset="assets/img/hero/hero-stamp-320.avif"><source type="image/webp" srcset="assets/img/hero/hero-stamp-320.webp">
+          <img src="assets/img/hero/hero-stamp-320.png" alt="" width="537" height="481" loading="lazy" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--lemon-top">
+          <source type="image/avif" srcset="assets/img/hero/hero-lemon-top-179.avif"><source type="image/webp" srcset="assets/img/hero/hero-lemon-top-179.webp">
+          <img src="assets/img/hero/hero-lemon-top-179.png" alt="" width="179" height="112" loading="lazy" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--splash">
+          <source type="image/avif" srcset="assets/img/hero/hero-splash-135.avif"><source type="image/webp" srcset="assets/img/hero/hero-splash-135.webp">
+          <img src="assets/img/hero/hero-splash-135.png" alt="" width="135" height="113" loading="lazy" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--lemon-right">
+          <source type="image/avif" srcset="assets/img/hero/hero-lemon-right-145.avif"><source type="image/webp" srcset="assets/img/hero/hero-lemon-right-145.webp">
+          <img src="assets/img/hero/hero-lemon-right-145.png" alt="" width="145" height="169" loading="lazy" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--lemon-left">
+          <source type="image/avif" srcset="assets/img/hero/hero-lemon-left-142.avif"><source type="image/webp" srcset="assets/img/hero/hero-lemon-left-142.webp">
+          <img src="assets/img/hero/hero-lemon-left-142.png" alt="" width="142" height="171" loading="lazy" decoding="async">
+        </picture>
+        <picture class="comp__l comp__l--shell">
+          <source type="image/avif" srcset="assets/img/hero/hero-shell-182.avif"><source type="image/webp" srcset="assets/img/hero/hero-shell-182.webp">
+          <img src="assets/img/hero/hero-shell-182.png" alt="" width="182" height="226" loading="lazy" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SECTION 2 — WHY CHOOSE US ══════════════ -->
+  <section class="why" id="tentang">
+    <div class="why__deco" aria-hidden="true"></div>
+
+    <h2 class="why__title" data-i18n="why.title">Kenapa memilih kami?</h2>
+
+    <ul class="why__grid">
+      <li class="wcard">
+        <span class="wcard__ico" aria-hidden="true">
+          <svg viewBox="0 0 120 104" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M26 62 h74 l-9 20 H35 z"/>
+            <path d="M63 62 V16"/><path d="M63 20 c14 3 24 8 30 14 -12 3 -22 4 -30 3z"/>
+            <path d="M63 41 c-11 2 -19 6 -24 11 10 2 18 2 24 1z"/>
+            <path d="M75 55 v-9 h9 v9"/>
+            <path d="M26 62 c-9 -1 -15 -5 -18 -10 8 -2 14 -1 18 2z"/>
+            <path d="M30 66 l10 14 M40 66 l10 14 M50 66 l10 14 M60 66 l10 14 M70 66 l10 14 M80 66 l9 13"/>
+            <path d="M30 78 h58 M28 71 h63"/>
+            <path d="M8 90 c8 -6 15 -6 23 0 8 6 15 6 23 0 8 -6 15 -6 23 0 8 6 15 6 23 0 6 -4 11 -5 16 -3"/>
+            <path d="M8 99 c8 -6 15 -6 23 0 8 6 15 6 23 0 8 -6 15 -6 23 0 8 6 15 6 23 0"/>
+          </svg>
+        </span>
+        <h3 class="wcard__t" data-i18n="why.c1t">Tangkapan Hari Ini</h3>
+        <p class="wcard__p" data-i18n="why.c1p">Dijamin segar dari laut ke meja Anda</p>
+      </li>
+
+      <li class="wcard">
+        <span class="wcard__ico" aria-hidden="true">
+          <svg viewBox="0 0 120 104" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M30 56 h46 c0 16 -10 27 -23 27 S30 72 30 56z"/>
+            <path d="M40 83 v6 c0 3 3 5 7 5 h12 c4 0 7 -2 7 -5 v-6"/>
+            <path d="M26 54 c0 -3 3 -5 7 -5 h40 c4 0 7 2 7 5"/>
+            <path d="M84 25 c5 -4 11 -3 13 2 2 5 -2 9 -7 12 L69 53 c-3 2 -6 1 -7 -2 -1 -3 0 -5 3 -7z"/>
+            <path d="M52 50 C46 40 44 28 48 18 c8 4 13 12 15 21"/>
+            <path d="M48 18 c-6 3 -12 3 -17 0 M48 26 c-7 2 -13 1 -18 -2 M50 35 c-7 2 -13 1 -18 -2"/>
+            <path d="M63 39 c0 -8 3 -15 8 -19 4 5 5 13 2 20 -3 6 -8 8 -10 5z"/>
+            <path d="M71 20 v22"/>
+            <path d="M79 70 c8 -8 19 -11 28 -8 -2 10 -10 19 -20 21 -6 1 -10 -1 -11 -4 -1 -3 1 -6 3 -9z"/>
+            <path d="M105 63 L82 84"/>
+          </svg>
+        </span>
+        <h3 class="wcard__t" data-i18n="why.c2t">Rasa Otentik</h3>
+        <p class="wcard__p" data-i18n="why.c2p">Masakan otentik yang hanya ada di sini</p>
+      </li>
+
+      <li class="wcard">
+        <span class="wcard__ico" aria-hidden="true">
+          <svg viewBox="0 0 120 104" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M60 8 l7 5 8 -2 4 7 8 3 -1 8 6 6 -4 7 2 8 -7 4 -2 8 -8 1 -5 7 -8 -3 -7 4 -6 -6 -8 1 -3 -8 -8 -3 1 -8 -5 -6 4 -7 -1 -8 8 -3 2 -8 8 1z"/>
+            <circle cx="60" cy="44" r="22"/>
+            <path d="M50 44 l7 8 14 -16"/>
+            <path d="M42 76 L32 100 l14 -6 8 12 9 -22"/>
+            <path d="M78 76 l10 24 -14 -6 -8 12 -9 -22"/>
+          </svg>
+        </span>
+        <h3 class="wcard__t" data-i18n="why.c3t">Kualitas Terjamin</h3>
+        <p class="wcard__p" data-i18n="why.c3p">Bahan-bahan masakan yang terjamin kualitasnya</p>
+      </li>
+    </ul>
+
+    <a class="btn btn--sage why__cta" href="#menu" data-i18n="why.cta">Lihat Menu</a>
+  </section>
+
+  </main>
+</div><!-- /panel -->
+</div><!-- /page -->
+
+<!-- sprite SVG -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-wa" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.65.31-.22.24-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.75 4.23 3.76 2.09.83 2.52.66 2.97.62.46-.04 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.11-.23-.17-.48-.29s-1.47-.72-1.7-.81c-.22-.08-.39-.12-.55.12-.16.25-.63.81-.77.98-.14.16-.28.18-.53.06-.24-.13-1.03-.38-1.97-1.22-.73-.65-1.22-1.45-1.36-1.7-.14-.24-.02-.37.11-.5.11-.11.24-.28.37-.42.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47Z"/>
+  </symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"
+      d="M12 20.3 4.6 13a4.6 4.6 0 0 1 0-6.5 4.6 4.6 0 0 1 6.5 0l.9.9.9-.9a4.6 4.6 0 0 1 6.5 0 4.6 4.6 0 0 1 0 6.5z"/>
+  </symbol>
+</svg>
+
+<script src="assets/js/app.js" defer></script>
+</body>
+</html>
