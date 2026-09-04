@@ -52,20 +52,57 @@
   font-size: var(--t-body); color: var(--fg-title); line-height: 1.3;
 }
 
-/* ══════════════ SECTION 5 — GALERIE ══════════════ */
-.gal { margin-top: var(--s-sec-y); padding: 0 var(--pad-x);
-       max-width: calc(var(--content-max) + 2 * var(--pad-x)); margin-inline: auto; }
-.gal__title { font-size: var(--t-h2); color: var(--fg-title); text-align: center; }
-.gal__grid {
-  margin-top: clamp(20px, 3vw, 40px);
-  display: grid; gap: clamp(10px, 1.4vw, 18px);
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+/* ══════════════ GALERIE — bande maritime sous la note ══════════════
+   Cadres en arche, comme des hublots, poses sur une ligne de flottaison.
+   Le decalage vertical suit une sinusoide : la bande ondule au lieu de
+   s'aligner. sin() est calcule par le navigateur, sans une ligne de JS.   */
+.gal { width: 100%; margin-top: clamp(22px, 3vw, 40px); position: relative; }
+.gal__title {
+  font-family: var(--f-script); font-weight: 400; font-size: var(--t-h3);
+  color: var(--fg-accent); text-align: center; line-height: 1.2;
 }
-.gal__grid li {
-  border-radius: var(--r-md); overflow: hidden; background: var(--bg-card);
-  box-shadow: var(--sh-card); aspect-ratio: 4 / 3;
+.gal__wave {
+  --amp: clamp(16px, 2.6vw, 40px);
+  margin-top: clamp(14px, 2vw, 26px);
+  display: flex; align-items: center; gap: clamp(10px, 1.4vw, 20px);
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x proximity; overscroll-behavior-x: contain;
+  padding: calc(var(--amp) + 16px) var(--pad-x) calc(var(--amp) + 20px);
+  margin-inline: calc(-1 * var(--pad-x));
+  scrollbar-width: none; -ms-overflow-style: none;
+  /* la ligne de flottaison, derriere les cadres */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='24' viewBox='0 0 240 24'%3E%3Cpath d='M0 12c20-10 40-10 60 0s40 10 60 0 40-10 60 0 40 10 60 0' fill='none' stroke='%23CEBCB2' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+              repeat-x center 74%;
 }
-.gal__grid img { width: 100%; height: 100%; object-fit: cover; }
+.gal__wave::-webkit-scrollbar { display: none; }
+
+.gal__wave li {
+  --a: calc(var(--i) * .82rad);
+  flex: none; width: clamp(126px, 14.5vw, 186px); aspect-ratio: 1 / 1.18;
+  scroll-snap-align: center;
+  border-radius: 999px 999px var(--r-md) var(--r-md);   /* arche de hublot */
+  overflow: hidden;
+  background: var(--bg-raised);
+  border: 5px solid var(--c-cream-100);
+  box-shadow: var(--sh-card);
+  transform: translateY(calc(sin(var(--a)) * var(--amp)))
+             rotate(calc(sin(var(--a)) * -2.2deg));
+  transition: transform var(--dur-3) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
+}
+.gal__wave li:hover, .gal__wave li:focus-within {
+  transform: translateY(calc(sin(var(--a)) * var(--amp) - 9px)) rotate(0deg) scale(1.035);
+  box-shadow: var(--sh-float);
+}
+.gal__wave img { width: 100%; height: 100%; object-fit: cover; }
+/* les illustrations sont detourees : on les pose au lieu de les recadrer */
+.gal__wave li.is-illu { background: var(--bg-card); }
+.gal__wave li.is-illu img { object-fit: contain; padding: 5%; }
+
+.gal__note {
+  margin-top: 6px; text-align: center;
+  font-size: var(--t-micro); color: var(--fg-muted); font-style: italic;
+}
 
 /* ══════════════ SECTION 6 — AVIS ══════════════ */
 .revw {
@@ -134,15 +171,10 @@
 .finfo__cta { margin-top: 6px; }
 .finfo__note { font-size: var(--t-body-sm); color: var(--fg-muted); font-style: italic; }
 
-.hours { display: grid; gap: 2px; width: 100%; max-width: 340px; }
-.hours li {
-  display: flex; justify-content: space-between; gap: 16px;
-  padding: 5px 0; border-bottom: 1px solid var(--line-soft);
-  font-size: var(--t-body-sm); color: var(--fg-body);
+.hours-one {
+  font-family: var(--f-display); font-weight: 700; font-size: var(--t-dish);
+  color: var(--fg-title); line-height: 1.35;
 }
-.hours li:last-child { border-bottom: none; }
-.hours li.is-today { color: var(--fg-title); font-weight: 700; }
-.hours b { font-weight: 700; font-variant-numeric: tabular-nums; }
 
 .flinks { display: flex; flex-direction: column; gap: 4px; }
 .flink {

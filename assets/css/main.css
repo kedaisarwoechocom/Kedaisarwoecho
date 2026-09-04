@@ -100,7 +100,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__logo { flex: none; display: block; }
 .nav__logo img { width: clamp(48px, 4.6vw, 66px); height: auto; }
 
-.nav__links { display: flex; align-items: center; gap: clamp(18px, 3.4vw, 48px); }
+.nav__links { display: flex; align-items: center; gap: clamp(18px, 3.4vw, 48px);
+              margin-left: auto; }   /* le menu est cale a droite */
 .nav__links a {
   font-size: var(--t-nav); color: var(--nav-fg);
   padding: 10px 2px; position: relative;
@@ -115,18 +116,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__links a:hover, .nav__links a.is-active { color: var(--nav-fg-active); }
 .nav__links a:hover::after, .nav__links a.is-active::after { transform: scaleX(1); }
 
-.nav__end { margin-left: auto; display: flex; align-items: center; gap: clamp(8px, 1.2vw, 16px); }
+.nav__end { display: flex; align-items: center; gap: clamp(8px, 1.2vw, 16px); }
 
-.lang { display: flex; align-items: center; gap: 6px; }
-.lang__btn {
-  min-width: var(--tap); min-height: var(--tap);   /* cible tactile 44x44 */
-  font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
-  color: var(--fg-muted); border-radius: var(--r-sm);
-  transition: color var(--dur-1) var(--ease-out);
-}
-.lang__btn.is-on { color: var(--fg-title); }
-.lang__btn:hover { color: var(--fg-accent); }
-.lang__sep { width: 1px; height: 14px; background: var(--line); }
 
 /* WhatsApp compact — reste visible a toutes les largeurs */
 .wa-mini {
@@ -140,13 +131,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .wa-mini:active { transform: scale(.97); }
 .wa-mini svg { width: 19px; height: 19px; flex: none; }
 
-/* coeur decoratif de la maquette (desktop seulement) */
-.nav__end::after {
-  content: ""; width: 22px; height: 20px; flex: none;
-  background: var(--fg-title);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' d='M12 20.3 4.6 13a4.6 4.6 0 0 1 0-6.5 4.6 4.6 0 0 1 6.5 0l.9.9.9-.9a4.6 4.6 0 0 1 6.5 0 4.6 4.6 0 0 1 0 6.5z'/%3E%3C/svg%3E") center/contain no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' d='M12 20.3 4.6 13a4.6 4.6 0 0 1 0-6.5 4.6 4.6 0 0 1 6.5 0l.9.9.9-.9a4.6 4.6 0 0 1 6.5 0 4.6 4.6 0 0 1 0 6.5z'/%3E%3C/svg%3E") center/contain no-repeat;
-}
 
 .burger { display: none; width: var(--tap); height: var(--tap); place-items: center; }
 .burger__box { display: block; width: 22px; height: 15px; position: relative; }
@@ -194,6 +178,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: var(--fg-title);
   letter-spacing: var(--tr-tight);
 }
+/* chaque mot du titre monte derriere un masque (anime par motion.js) */
+.hero__title .mot { display: inline-block; overflow: hidden; vertical-align: bottom;
+                    padding-bottom: .14em; margin-bottom: -.14em; }
+.hero__title .mot__i { display: inline-block; will-change: transform; }
 .hero__title .script {
   font-family: var(--f-script); font-style: normal; font-weight: 400;
   color: var(--fg-accent);
@@ -452,6 +440,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .dnav:hover { background: var(--btn-bg); color: var(--btn-fg); border-color: var(--btn-bg); }
 .dnav svg { width: 21px; height: 21px; }
 
+.menu__vers-carte { margin-top: clamp(20px, 2.6vw, 34px); text-align: center; }
+.menu__vers-carte a {
+  min-height: var(--tap); display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 clamp(18px, 2vw, 26px);
+  border: 1.5px solid var(--c-taupe-400); border-radius: var(--r-pill);
+  font-weight: 700; font-size: var(--t-body-sm); color: var(--fg-title);
+  transition: background var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.menu__vers-carte a:hover { background: var(--bg-card); border-color: var(--btn-bg); }
+
 .menu__fallback { margin-top: 24px; text-align: center; color: var(--fg-muted); }
 .menu__fallback a { font-weight: 700; }
 
@@ -522,7 +520,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ══════════════ TELEPHONE — mise en page CONCUE, pas reduite ══════════════ */
 @media (max-width: 860px) {
   .nav { min-height: var(--tap); gap: 10px; }
-  .nav__end::after { display: none; }        /* coeur decoratif retire */
+  .nav__links { margin-left: 0; }
+  .nav__end { margin-left: auto; }   /* le tiroir est en absolu : c'est lui qui pousse */
   .wa-mini { display: inline-flex; }         /* WhatsApp toujours visible */
   .burger  { display: grid; }
 
@@ -594,8 +593,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   /* place gagnee pour garder des cibles de 44px partout */
   .wa-mini { padding: 0 12px; min-width: var(--tap); justify-content: center; }
   .wa-mini span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .lang { gap: 2px; }
-  .wcard { grid-template-columns: 1fr; grid-template-areas: "ico" "titre" "texte"; row-gap: 6px; }
+    .wcard { grid-template-columns: 1fr; grid-template-areas: "ico" "titre" "texte"; row-gap: 6px; }
   .wcard__ico { width: 72px; }
   .pick__thumb { width: 84px; }
 }

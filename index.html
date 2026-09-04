@@ -64,14 +64,7 @@
     </nav>
 
     <div class="nav__end">
-      <!-- Bascule de langue -->
-      <div class="lang" role="group" aria-label="Bahasa / Language">
-        <button type="button" class="lang__btn is-on" data-lang="id" aria-pressed="true">ID</button>
-        <span class="lang__sep" aria-hidden="true"></span>
-        <button type="button" class="lang__btn" data-lang="en" aria-pressed="false">EN</button>
-      </div>
-
-      <!-- WhatsApp: toujours visible, y compris sur telephone -->
+      <!-- WhatsApp: toujours visible sur telephone, c'est l'action principale -->
       <a class="wa-mini" data-wa href="#" aria-label="Pesan lewat WhatsApp">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-wa"/></svg>
         <span data-i18n="nav.order">Pesan</span>
@@ -254,6 +247,10 @@
       </article>
     </div>
 
+    <p class="menu__vers-carte">
+      <a href="menu.html" data-i18n="menu.carte">Lihat kartu menu lengkap</a>
+    </p>
+
     <p class="menu__fallback" id="menuFallback" hidden>
       <span data-i18n="menu.fallback">Menu tidak dapat dimuat.</span>
       <a data-wa href="#" target="_blank" rel="noopener noreferrer" data-i18n="menu.fallbackCta">Hubungi kami lewat WhatsApp</a>
@@ -271,12 +268,6 @@
     </div>
   </section>
 
-  <!-- ══════════════ SECTION 5 — GALERIE (masquee tant qu'il n'y a pas de photos) ═══ -->
-  <section class="gal" id="galeri" hidden>
-    <h2 class="gal__title" data-i18n="gal.title">Suasana Kedai</h2>
-    <ul class="gal__grid" id="galGrid"></ul>
-  </section>
-
   <!-- ══════════════ SECTION 6 — AVIS ══════════════ -->
   <section class="revw" id="ulasan">
     <h2 class="revw__title" data-i18n="revw.title">Kata Mereka</h2>
@@ -288,6 +279,14 @@
          data-i18n="revw.link">Baca ulasannya</a>
     </div>
     <ul class="revw__quotes" id="rvQuotes"></ul>
+
+    <!-- Galerie, juste sous la note. Disposition en vague : les cadres suivent une
+         sinusoide, comme une ligne de flottaison. Masquee si aucune photo. -->
+    <div class="gal" id="galeri" hidden>
+      <h3 class="gal__title" id="galTitle">Dari Dapur Kami</h3>
+      <ul class="gal__wave" id="galGrid"></ul>
+      <p class="gal__note" id="galNote" hidden data-i18n="gal.note">Ilustrasi hidangan kami, sambil menunggu foto tempatnya.</p>
+    </div>
   </section>
 
   <!-- ══════════════ SECTION 7 — NOUS TROUVER ══════════════ -->
@@ -304,8 +303,11 @@
 
         <div class="finfo">
           <h3 class="finfo__t" data-i18n="find.hours">Jam buka</h3>
-          <p class="finfo__note" id="fHoursNote" hidden data-i18n="find.hoursNote">Jam buka masih harus dikonfirmasi.</p>
-          <ul class="hours" id="fHours"></ul>
+          <p class="hours-one" id="fHoursLine"></p>
+          <a class="btn btn--wa finfo__cta" data-wa href="#" target="_blank" rel="noopener noreferrer">
+            <span class="btn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></span>
+            <span data-i18n="hero.cta">Pesan Sekarang</span>
+          </a>
         </div>
 
         <div class="finfo">
@@ -357,6 +359,7 @@
         <a href="#menu" data-i18n="nav.menu">Menu</a>
         <a href="#cerita" data-i18n="foot.story">Cerita</a>
         <a href="#kontak" data-i18n="nav.contact">Kontak</a>
+        <a href="menu.html" data-i18n="menu.carte">Kartu menu</a>
       </nav>
 
       <div class="foot__contact">

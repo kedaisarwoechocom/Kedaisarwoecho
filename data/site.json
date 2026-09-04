@@ -3,42 +3,72 @@
     "CONTENU DU SITE HORS MENU. Les prix et les plats sont dans data/menu.json.",
     "Ne touchez a aucun fichier .html, .css ou .js.",
     "",
-    "horaires        : une ligne par jour. Laissez 'ferme' pour un jour de fermeture.",
-    "horaires_confirmes : false = le site affiche une mention 'a confirmer'.",
-    "                     Passez a true quand vous aurez verifie les horaires.",
-    "galerie         : vos photos du lieu. Deposez les fichiers dans",
-    "                  assets/img/lieu/ puis ajoutez-les ici. Tant que la liste est",
-    "                  vide, la section Galerie ne s'affiche pas du tout.",
-    "                  N'utilisez QUE vos propres photos : celles des avis Google",
-    "                  appartiennent a leurs auteurs.",
-    "avis            : citations de clients. Laissez vide si vous n'en avez pas ;",
-    "                  la note globale s'affiche quand meme.",
-    "video_youtube   : identifiant de la video (la partie apres v= dans l'URL).",
-    "                  Vide = pas de video affichee.",
+    "                     ne les publie PAS dans les donnees envoyees a Google.",
+    "                     Passez a true une fois verifies.",
     "",
-    "Apres modification, rechargez la page. Rien d autre a faire."
+    "horaires_texte     : la phrase affichee sous 'Jam buka'. Une seule ligne.",
+    "ouverture / fermeture : les memes horaires en 24 h, pour Google (08:00 / 22:00).",
+    "horaires_confirmes : true = les horaires partent aussi dans les donnees Google.",
+    "",
+    "galerie            : la bande d'images en vague, juste sous la note Google.",
+    "                     Deposez vos fichiers dans assets/img/lieu/ puis remplacez",
+    "                     les entrees ci-dessous par leur nom de fichier.",
+    "  fichier          : sans extension si c'est une illustration du menu ;",
+    "                     AVEC l'extension pour une photo (ex: terrasse.jpg).",
+    "  source           : 'illustration' pour les dessins actuels, 'photo' pour les",
+    "                     vraies photos. Des qu'une entree passe en 'photo', la",
+    "                     mention 'en attendant les photos du lieu' disparait et le",
+    "                     titre devient 'Suasana Kedai'.",
+    "  alt_id / alt_en  : description de l'image, lue par les lecteurs d'ecran.",
+    "",
+    "  /!\\ N'utilisez QUE vos propres photos. Sur Google Maps, les photos",
+    "      appartiennent au client qui les a postees, pas au restaurant. Les bonnes",
+    "      sources sont l'onglet 'Photos du proprietaire' sur votre fiche Google,",
+    "      et votre page Facebook.",
+    "",
+    "avis               : citations de clients. Laissez vide si vous n'en avez pas,",
+    "                     la note globale s'affiche quand meme.",
+    "video_youtube      : identifiant de la video (la partie apres v= dans l'URL).",
+    "                     Vide = pas de video affichee.",
+    "",
+    "Apres modification, enregistrez et rechargez la page. Rien d'autre a faire."
   ],
-
   "histoire": {
     "titre_id": "Cerita Kami",
     "titre_en": "Our Story",
-    "accent_id": "di tepi Pantai Pulang Sawal",
-    "accent_en": "on the shore of Pulang Sawal",
+    "accent_id": "dari warung bambu, di tepi Pantai Pulang Sawal",
+    "accent_en": "from a bamboo shack, on the shore of Pulang Sawal",
     "texte_id": [
-      "Kedai Sarwo Echo berdiri di tepi Pantai Pulang Sawal, di antara tebing karang Tepus. Dari dapur kami, laut hanya berjarak beberapa langkah — dan itulah seluruh rahasianya.",
-      "Hasil laut kami datang dari perahu yang bersandar pagi itu juga. Lobster, kepiting, cumi dan ikan dipilih satu per satu, lalu dimasak dengan bumbu yang tidak berubah sejak hari pertama."
+      "Semuanya bermula dari sebuah warung bambu kecil di tepi Pantai Pulang Sawal. Beberapa meja, satu dapur sederhana, dan tamu yang datang karena kabar dari mulut ke mulut.",
+      "Sedikit demi sedikit kami menambah ruang. Kami menanam pohon dan tanaman di sekeliling kedai, supaya tamu bisa makan di tempat yang teduh, dengan suara ombak di belakang.",
+      "Hasil lautnya kami pilih segar setiap hari, langsung dari pemasok di pantai ini. Lobster, kepiting, cumi dan ikan dimasak dengan bumbu yang tidak berubah sejak hari pertama."
     ],
     "texte_en": [
-      "Kedai Sarwo Echo sits on the shore of Pulang Sawal beach, among the limestone cliffs of Tepus. From our kitchen the sea is a few steps away — and that is the whole secret.",
-      "Our catch comes off the boats that land that same morning. Lobster, crab, squid and fish are picked one by one, then cooked with the spices we have used since the first day."
+      "It all began as a small bamboo shack on the shore of Pulang Sawal. A few tables, one simple kitchen, and guests who came because someone had told them about us.",
+      "Little by little we added room. We planted trees and greenery around the kedai, so that people could eat in the shade, with the sound of the waves behind them.",
+      "The seafood we choose fresh every day, straight from the suppliers on this beach. Lobster, crab, squid and fish, cooked with the spices we have used since the first day."
     ],
     "reperes": [
-      { "cle_id": "Di tepi pantai",   "cle_en": "Right on the beach",  "valeur_id": "Pantai Pulang Sawal, Tepus", "valeur_en": "Pulang Sawal beach, Tepus" },
-      { "cle_id": "Tangkapan harian", "cle_en": "Landed daily",        "valeur_id": "Langsung dari perahu pagi",   "valeur_en": "Straight off the morning boats" },
-      { "cle_id": "Hidangan",         "cle_en": "Dishes",              "valeur_id": "22 pilihan di menu",          "valeur_en": "22 dishes on the menu" }
+      {
+        "cle_id": "Berawal dari",
+        "cle_en": "It started as",
+        "valeur_id": "Warung bambu sederhana",
+        "valeur_en": "A simple bamboo shack"
+      },
+      {
+        "cle_id": "Di tepi pantai",
+        "cle_en": "Right on the beach",
+        "valeur_id": "Pantai Pulang Sawal, Tepus",
+        "valeur_en": "Pulang Sawal beach, Tepus"
+      },
+      {
+        "cle_id": "Hidangan",
+        "cle_en": "Dishes",
+        "valeur_id": "22 pilihan di menu",
+        "valeur_en": "22 dishes on the menu"
+      }
     ]
   },
-
   "avis": {
     "note": 4.3,
     "nombre": 92,
@@ -47,29 +77,79 @@
     "lien": "https://www.google.com/maps/search/?api=1&query=Kedai+Sarwo+Echo+Pantai+Pulang+Sawal+Tepus",
     "citations": []
   },
-
+  "galerie_titre": {
+    "id": "Dari Dapur Kami",
+    "en": "From our kitchen",
+    "id_photos": "Suasana Kedai",
+    "en_photos": "Inside the kedai"
+  },
+  "galerie": [
+    {
+      "fichier": "seafood-tumpah",
+      "source": "illustration",
+      "alt_id": "Seafood Tumpah, wajan besar untuk berbagi",
+      "alt_en": "Seafood Tumpah, a big pan to share"
+    },
+    {
+      "fichier": "lobster-saos-asam-manis-2",
+      "source": "illustration",
+      "alt_id": "Lobster saus asam manis",
+      "alt_en": "Sweet and sour lobster"
+    },
+    {
+      "fichier": "kapiting-saos-asam-manis",
+      "source": "illustration",
+      "alt_id": "Kepiting saus asam manis",
+      "alt_en": "Sweet and sour crab"
+    },
+    {
+      "fichier": "ikan-bakar",
+      "source": "illustration",
+      "alt_id": "Ikan bakar bumbu kecap",
+      "alt_en": "Grilled fish with soy glaze"
+    },
+    {
+      "fichier": "udang-asam-manis",
+      "source": "illustration",
+      "alt_id": "Udang asam manis",
+      "alt_en": "Sweet and sour prawns"
+    },
+    {
+      "fichier": "kerang-asam-manis",
+      "source": "illustration",
+      "alt_id": "Kerang hijau segar",
+      "alt_en": "Fresh green clams"
+    },
+    {
+      "fichier": "cumi-crispy",
+      "source": "illustration",
+      "alt_id": "Cumi goreng tepung renyah",
+      "alt_en": "Crisp battered squid"
+    },
+    {
+      "fichier": "mangut-lele",
+      "source": "illustration",
+      "alt_id": "Mangut lele kuah santan pedas",
+      "alt_en": "Catfish in spicy coconut broth"
+    }
+  ],
   "lieu": {
     "adresse_l1": "Kompleks Pantai Pulang Sawal",
     "adresse_l2": "Jl. Pantai Sel. Jawa, Tepus",
     "adresse_l3": "Kabupaten Gunung Kidul, DI Yogyakarta 55881",
     "latitude": -8.1514,
-    "longitude": 110.6120,
+    "longitude": 110.612,
     "coordonnees_a_verifier": true,
     "lien_itineraire": "https://www.google.com/maps/dir/?api=1&destination=Kedai+Sarwo+Echo+Pantai+Pulang+Sawal+Tepus+Gunungkidul",
     "facebook": "",
     "instagram": "",
-    "horaires_confirmes": false,
-    "horaires": [
-      { "jour_id": "Senin",  "jour_en": "Monday",    "h": "09.00 – 21.00" },
-      { "jour_id": "Selasa", "jour_en": "Tuesday",   "h": "09.00 – 21.00" },
-      { "jour_id": "Rabu",   "jour_en": "Wednesday", "h": "09.00 – 21.00" },
-      { "jour_id": "Kamis",  "jour_en": "Thursday",  "h": "09.00 – 21.00" },
-      { "jour_id": "Jumat",  "jour_en": "Friday",    "h": "09.00 – 21.00" },
-      { "jour_id": "Sabtu",  "jour_en": "Saturday",  "h": "08.00 – 22.00" },
-      { "jour_id": "Minggu", "jour_en": "Sunday",    "h": "08.00 – 22.00" }
-    ]
+    "horaires_confirmes": true,
+    "horaires_texte": {
+      "id": "Buka setiap hari, 08.00 – 22.00",
+      "en": "Open every day, 8am to 10pm"
+    },
+    "ouverture": "08:00",
+    "fermeture": "22:00"
   },
-
-  "galerie": [],
   "video_youtube": ""
 }

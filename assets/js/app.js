@@ -26,15 +26,16 @@
       'menu.title': 'Menu Kami', 'menu.sub': 'Putar rodanya untuk menjelajah',
       'menu.dishes': 'hidangan', 'menu.order': 'Pesan hidangan ini',
       'menu.all': 'Semua',
+      'menu.carte': 'Lihat kartu menu lengkap',
       'menu.fallback': 'Menu tidak dapat dimuat.',
       'menu.fallbackCta': 'Hubungi kami lewat WhatsApp',
       'gal.title': 'Suasana Kedai',
+      'gal.note': 'Ilustrasi hidangan kami, sambil menunggu foto tempatnya.',
       'revw.title': 'Kata Mereka', 'revw.link': 'Baca ulasannya di Google',
       'find.title': 'Kunjungi Kami', 'find.addr': 'Alamat', 'find.hours': 'Jam buka',
-      'find.hoursNote': 'Jam buka masih harus dikonfirmasi.',
       'find.contact': 'Kontak', 'find.route': 'Petunjuk arah',
       'find.mapNote': 'Titik peta masih perkiraan.',
-      'foot.tag': 'Seafood segar, langsung dari laut ke meja Anda.',
+      'foot.tag': 'Masakan Indonesia dan ikan terbaik, lebih segar dan lebih lezat.',
       'foot.story': 'Cerita', 'foot.rights': 'Semua ilustrasi hidangan adalah milik kedai.',
       'prov': 'harga sementara',
       'wa.hello': 'Halo Kedai Sarwo Echo! Saya ingin memesan'
@@ -54,15 +55,16 @@
       'menu.title': 'Our Menu', 'menu.sub': 'Spin the wheel to explore',
       'menu.dishes': 'dishes', 'menu.order': 'Order this dish',
       'menu.all': 'All',
+      'menu.carte': 'See the full menu card',
       'menu.fallback': 'The menu could not be loaded.',
       'menu.fallbackCta': 'Reach us on WhatsApp',
       'gal.title': 'Inside the kedai',
+      'gal.note': 'Our dish illustrations, while we wait for photos of the place.',
       'revw.title': 'What people say', 'revw.link': 'Read the reviews on Google',
       'find.title': 'Find Us', 'find.addr': 'Address', 'find.hours': 'Opening hours',
-      'find.hoursNote': 'Opening hours still to be confirmed.',
       'find.contact': 'Contact', 'find.route': 'Get directions',
       'find.mapNote': 'The map pin is still approximate.',
-      'foot.tag': 'Fresh seafood, straight from the sea to your table.',
+      'foot.tag': 'For great Indonesian food and fish, fresher and tastier.',
       'foot.story': 'Our story', 'foot.rights': 'All dish illustrations belong to the kedai.',
       'prov': 'provisional price',
       'wa.hello': 'Hello Kedai Sarwo Echo! I would like to order'
@@ -104,11 +106,6 @@
     $$('[data-i18n]').forEach(el => {
       const v = T[lang][el.dataset.i18n];
       if (v != null) el.textContent = v;
-    });
-    $$('.lang__btn').forEach(b => {
-      const on = b.dataset.lang === lang;
-      b.classList.toggle('is-on', on);
-      b.setAttribute('aria-pressed', String(on));
     });
     $$('[data-wa]').forEach(a => { a.href = waLink(t('wa.hello') + ' :'); });
     if (data) { renderPicks(); Wheel.retitle(); }
@@ -398,13 +395,35 @@
     gallery() {
       const g = site.galerie || [];
       const sec = $('#galeri');
-      sec.hidden = g.length === 0;          // pas de photos = pas de section
+      sec.hidden = g.length === 0;              // rien a montrer = pas de bande
       if (!g.length) return;
-      $('#galGrid').innerHTML = g.map(x => {
+
+      const vraiesPhotos = g.some(x => x.source === 'photo');
+      const ti = site.galerie_titre || {};
+      $('#galTitle').textContent = vraiesPhotos
+        ? (lang === 'id' ? ti.id_photos : ti.en_photos) || ''
+        : (lang === 'id' ? ti.id : ti.en) || '';
+      $('#galNote').hidden = vraiesPhotos;      // mention retiree des la 1re vraie photo
+
+      $('#galGrid').innerHTML = g.map((x, i) => {
         const alt = esc(lang === 'id' ? (x.alt_id || '') : (x.alt_en || x.alt_id || ''));
-        return `<li><img src="assets/img/lieu/${esc(x.fichier)}" alt="${alt}"
-                  loading="lazy" decoding="async"></li>`;
+        const illu = x.source !== 'photo';
+        const media = illu
+          ? `<picture>
+               <source type="image/avif" srcset="${img(x.fichier, 480)}.avif">
+               <source type="image/webp" srcset="${img(x.fichier, 480)}.webp">
+               <img src="${img(x.fichier, 480)}.png" alt="${alt}" width="480" height="480"
+                    loading="lazy" decoding="async">
+             </picture>`
+          : `<img src="assets/img/lieu/${esc(x.fichier)}" alt="${alt}"
+                  loading="lazy" decoding="async">`;
+        return `<li class="${illu ? 'is-illu' : ''}" style="--i:${i}">${media}</li>`;
       }).join('');
+      // --i pose par CSSOM : la CSP interdit l'attribut style en ligne
+      $$('#galGrid > li').forEach((li, i) => {
+        li.removeAttribute('style');
+        li.style.setProperty('--i', i);
+      });
     },
 
     reviews() {
@@ -448,11 +467,8 @@
       $('#fRoute').href = l.lien_itineraire || '#';
       $('#fWa').textContent = data?.restaurant?.whatsapp_affiche || '';
 
-      $('#fHoursNote').hidden = l.horaires_confirmes === true;
-      const auj = (new Date().getDay() + 6) % 7;   // 0 = lundi
-      $('#fHours').innerHTML = (l.horaires || []).map((j, i) =>
-        `<li class="${i === auj ? 'is-today' : ''}">
-           <span>${esc(lang === 'id' ? j.jour_id : j.jour_en)}</span><b>${esc(j.h)}</b></li>`).join('');
+      const ht = l.horaires_texte || {};
+      $('#fHoursLine').textContent = (lang === 'id' ? ht.id : ht.en) || '';
 
       for (const [cle, li, a] of [['facebook', '#fFbLi', '#fFb'], ['instagram', '#fIgLi', '#fIg']]) {
         const url = l[cle];
@@ -505,12 +521,11 @@
         ld.aggregateRating = { '@type': 'AggregateRating', ratingValue: av.note,
                                reviewCount: av.nombre, bestRating: 5 };
       // horaires publies seulement une fois confirmes : mieux vaut rien qu'un faux
-      if (l.horaires_confirmes === true)
-        ld.openingHoursSpecification = (l.horaires || []).map((x, i) => {
-          const [o, f] = String(x.h).split(/\s*[–-]\s*/);
-          return o && f ? { '@type': 'OpeningHoursSpecification', dayOfWeek: jours[i],
-                            opens: o.replace('.', ':'), closes: f.replace('.', ':') } : null;
-        }).filter(Boolean);
+      if (l.horaires_confirmes === true && l.ouverture && l.fermeture)
+        ld.openingHoursSpecification = [{
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: jours, opens: l.ouverture, closes: l.fermeture,
+        }];
       const prix = data.plats.map(p => p.prix).filter(Number.isFinite);
       if (prix.length && r.afficher_les_prix === true)
         ld.priceRange = 'Rp ' + Math.min(...prix).toLocaleString('id-ID') +
@@ -571,7 +586,6 @@
   /* ═══════════ demarrage ═══════════ */
   function init() {
     initNav();
-    $$('.lang__btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 
     // Indonesien par defaut (clientele locale d'abord) ; anglais si le navigateur
     // est anglophone. ?lang=en force la langue, pour partager un lien traduit.
