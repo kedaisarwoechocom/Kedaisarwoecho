@@ -18,6 +18,9 @@ body {
   overflow-x: hidden;            /* aucun defilement horizontal parasite */
 }
 img, svg, picture { display: block; max-width: 100%; }
+/* toute regle `display` d'auteur bat le `display:none` que le navigateur applique
+   a [hidden] : sans ce garde-fou, masquer un element en flex ou grid ne marche pas. */
+[hidden] { display: none !important; }
 img { height: auto; }
 h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 800;
              line-height: var(--lh-tight); }
@@ -53,11 +56,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    l'echelle de la fenetre entiere.                                           */
 .page  { padding: 0; }
 .panel {
-  --pad-x: clamp(18px, 4.63vw, 82px);
+  --pad-x: clamp(20px, 5vw, 96px);   /* gouttiere laterale, portee par les sections */
   max-width: var(--panel-max);
   margin-inline: auto;
   background: var(--bg-panel);
-  padding: clamp(18px, 5.35vw, 94px) var(--pad-x) clamp(40px, 6.5vw, 115px);
+  padding: 0;                        /* aucune marge exterieure : chaque section
+                                        gere son propre espace interne */
   position: relative;
   overflow: clip;
 }
@@ -67,6 +71,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   display: flex; align-items: center;
   gap: clamp(12px, 2vw, 28px);
   min-height: 62px;
+  padding: clamp(14px, 2.6vw, 40px) var(--pad-x) 0;
   position: relative; z-index: 20;
 }
 .nav__logo { flex: none; display: block; }
@@ -157,7 +162,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .btn--wa { padding-inline: clamp(18px,2.9vw,42px) clamp(20px,2.7vw,39px); }
 
 /* ══════════════ SECTION 1 — HERO ══════════════ */
-.hero { display: flex; flex-direction: column; padding-top: 6px; }
+.hero { display: flex; flex-direction: column; padding: 6px var(--pad-x) 0; }
 .hero__text { position: relative; z-index: 2; }
 
 .hero__title {
@@ -209,6 +214,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .pick__price svg { width: 19px; height: 19px; flex: none; color: var(--price-fg); }
 .pick__prov { font-size: var(--t-micro); font-weight: 400; color: var(--fg-muted); letter-spacing: .01em; }
+.pick__desc {
+  margin-top: 5px; font-size: var(--t-body-sm); color: var(--fg-muted); line-height: 1.4;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
+}
 
 /* --- compo hero: 7 calques places au % de la compo d'origine ---
    Telephone (base) : la compo est un bloc du flux, place avant le titre.  */
@@ -236,7 +245,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .why {
   position: relative;
   margin-top: var(--s-sec-y);
-  padding: clamp(30px, 4.2vw, 60px) 0 clamp(24px, 3vw, 44px);
+  padding: clamp(30px, 4.2vw, 60px) var(--pad-x) clamp(24px, 3vw, 44px);
   text-align: center;
 }
 .why__title { font-size: var(--t-h2); color: var(--fg-title); }
@@ -289,6 +298,116 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   background-size: 7.5%, 5.4%, 6.2%, 6.6%, 7.5%, 5.6%, 7%, 6.4%;
 }
 
+/* ══════════════ SECTION 3 — LA ROUE DU MENU ══════════════
+   Structure reprise de l'exemple fourni, rhabillee aux couleurs des maquettes :
+   creme et sauge, pas le fond noir de l'exemple.
+   Telephone (base) : arc balayable au doigt, fiche du plat en dessous.
+   Desktop : vraie roue, fiche a droite.                                     */
+.menu { margin-top: var(--s-sec-y); position: relative;
+        padding: 0 var(--pad-x) clamp(30px, 4vw, 70px); }
+.menu__head { text-align: center; display: flex; flex-direction: column;
+              align-items: center; gap: clamp(8px, 1vw, 14px); }
+.menu__title { font-size: var(--t-h2); color: var(--fg-title); }
+.menu__sub { font-size: var(--t-body-sm); color: var(--fg-muted); }
+.menu__sub b { color: var(--fg-accent); font-weight: 700; }
+.menu__dot { margin-inline: 8px; color: var(--c-taupe-400); }
+
+/* --- filtres par categorie --- */
+.chips { display: flex; flex-wrap: wrap; justify-content: center;
+         gap: 8px; margin-top: clamp(6px, .8vw, 12px); }
+.chip {
+  min-height: var(--tap); padding: 0 clamp(14px, 1.4vw, 20px);
+  display: inline-flex; align-items: center;
+  background: var(--bg-card); color: var(--fg-body);
+  border: 1px solid transparent; border-radius: var(--r-pill);
+  font-size: var(--t-body-sm); font-weight: 700; white-space: nowrap;
+  transition: background var(--dur-1) var(--ease-out),
+              color var(--dur-1) var(--ease-out),
+              border-color var(--dur-1) var(--ease-out);
+}
+.chip:hover { border-color: var(--c-taupe-400); }
+.chip[aria-pressed="true"] { background: var(--btn-bg); color: var(--btn-fg); }
+
+.menu__stage { margin-top: clamp(22px, 3.2vw, 46px); display: flex;
+               flex-direction: column; gap: clamp(18px, 2.4vw, 34px); }
+
+/* --- la roue --- */
+.wheel { display: flex; flex-direction: column; align-items: center;
+         gap: clamp(12px, 1.6vw, 20px); }
+
+/* telephone : l'anneau devient un arc balayable */
+.wheel__ring {
+  --sat: clamp(62px, 16vw, 78px);   /* reste >= 44px meme reduite par le galbe */
+  order: 2; width: 100%;
+  display: flex; align-items: flex-end; gap: clamp(8px, 2vw, 14px);
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  padding: 8px calc(50% - var(--sat) / 2) 46px;
+  scrollbar-width: none; -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+.wheel__ring::-webkit-scrollbar { display: none; }
+.wheel__ring:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 14px; }
+
+.sat {
+  flex: none; width: var(--sat); height: var(--sat);
+  scroll-snap-align: center;
+  display: grid; place-items: center; padding: 6px;
+  background: var(--bg-card); border: 2px solid transparent;
+  border-radius: 22% 34% 22% 34%;
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--ease-out),
+              background var(--dur-1) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
+}
+.sat img { width: 100%; height: 100%; object-fit: contain; }
+.sat:hover { background: var(--c-cream-100); }
+.sat[aria-selected="true"] {
+  background: var(--c-cream-100); border-color: var(--btn-bg);
+  box-shadow: var(--sh-card);
+}
+
+/* le plat en grand */
+.wheel__hub {
+  order: 1; width: clamp(190px, 52vw, 300px); aspect-ratio: 1;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 52%,
+              var(--c-cream-100) 0 58%, rgba(206,188,178,.22) 72%, transparent 73%);
+  border-radius: 50%;
+}
+.wheel__hub img { width: 92%; height: 92%; object-fit: contain;
+                  filter: drop-shadow(0 22px 26px rgba(110,82,71,.22)); }
+.wheel__count { order: 3; font-size: var(--t-micro); color: var(--fg-muted);
+                letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+.wheel__count b { color: var(--fg-title); font-weight: 700; }
+
+/* --- fiche du plat --- */
+.dish { display: flex; flex-direction: column; align-items: flex-start;
+        gap: clamp(6px, .8vw, 10px); text-align: left; }
+.dish__cat {
+  font-family: var(--f-body); font-size: var(--t-micro); font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--fg-muted);
+}
+.dish__name { font-size: var(--t-h3); color: var(--fg-title); font-weight: 800; }
+.dish__price { font-family: var(--f-display); font-weight: 800;
+               font-size: var(--t-eyebrow); color: var(--price-fg);
+               display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+.dish__prov { font-family: var(--f-body); font-weight: 400;
+              font-size: var(--t-micro); color: var(--fg-muted); }
+.dish__desc { color: var(--fg-body); max-width: 42ch; line-height: 1.45; }
+.dish__cta { margin-top: clamp(8px, 1.2vw, 16px); }
+.dish__nav { display: flex; gap: 10px; margin-top: 4px; }
+.dnav {
+  width: var(--tap); height: var(--tap); display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 50%; color: var(--fg-title);
+  transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+.dnav:hover { background: var(--btn-bg); color: var(--btn-fg); border-color: var(--btn-bg); }
+.dnav svg { width: 21px; height: 21px; }
+
+.menu__fallback { margin-top: 24px; text-align: center; color: var(--fg-muted); }
+.menu__fallback a { font-weight: 700; }
+
 /* ══════════════ DESKTOP — cote a cote ══════════════
    La compo est une cellule de la grille : sa hauteur compte dans le flux, donc
    elle ne peut plus chevaucher la section suivante quand l'ecran s'elargit.
@@ -297,7 +416,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .hero {
     display: grid; align-items: start;
     grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
-    padding-top: clamp(22px, 6.94vw, 122px);
+    padding: clamp(22px, 6.94vw, 122px) var(--pad-x) 0;
   }
   .hero__text {
     grid-column: 1; grid-row: 1;
@@ -305,10 +424,48 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   }
   .comp {
     grid-column: 2; grid-row: 1; order: 0;
-    width: 121.6%; margin-left: -15.86%;   /* mesure: compo de 828px de large a 1440 */
+    /* le debord gauche reproduit la maquette ; le bord droit s'arrete pile sur
+       la gouttiere, pour que l'illustration ne soit jamais rognee par l'ecran. */
+    width: 115.8%; margin-left: -15.8%;
     margin-right: 0; margin-bottom: 0;
   }
   .comp__box { max-width: none; }
+
+  /* la roue redevient un cercle, la fiche passe a droite */
+  .menu__stage {
+    display: grid; align-items: center; justify-content: center;
+    grid-template-columns: minmax(0, 620px) minmax(280px, 440px);
+    gap: clamp(24px, 4vw, 72px);
+  }
+  .wheel {
+    position: relative; display: block;
+    width: min(100%, 620px); margin-inline: auto; aspect-ratio: 1;
+    --r: 44%; --sat: 12%;
+  }
+  .wheel::before {                     /* le cercle guide */
+    content: ""; position: absolute; inset: 6%;
+    border: 1px dashed var(--c-taupe-400); border-radius: 50%; opacity: .55;
+  }
+  .wheel__ring {
+    position: absolute; inset: 0; display: block; overflow: visible;
+    padding: 0; scroll-snap-type: none; touch-action: none; cursor: grab;
+  }
+  .wheel__ring.is-drag { cursor: grabbing; }
+  .sat {
+    position: absolute; left: 50%; top: 50%;
+    width: var(--sat); height: var(--sat); scroll-snap-align: none;
+    margin: calc(var(--sat) / -2);
+    will-change: transform;
+  }
+  .wheel__hub {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 46%; margin: 0;
+  }
+  .wheel__count {
+    position: absolute; left: 50%; bottom: 4%; transform: translateX(-50%);
+    margin: 0;
+  }
+  .dish { align-self: center; }
 }
 
 @media (max-width: 1080px) and (min-width: 861px) {
@@ -324,7 +481,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
   /* les liens passent en tiroir deroulant */
   .nav__links {
-    position: absolute; left: 0; right: 0; top: calc(100% + 10px);
+    position: absolute; left: var(--pad-x); right: var(--pad-x); top: calc(100% + 4px);
     flex-direction: column; align-items: stretch; gap: 0;
     background: var(--bg-raised);
     border: 1px solid var(--line); border-radius: var(--r-md);

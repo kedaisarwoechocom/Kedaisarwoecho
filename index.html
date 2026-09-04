@@ -185,6 +185,60 @@
     <a class="btn btn--sage why__cta" href="#menu" data-i18n="why.cta">Lihat Menu</a>
   </section>
 
+  <!-- ══════════════ SECTION 3 — LA ROUE DU MENU ══════════════ -->
+  <section class="menu" id="menu">
+    <header class="menu__head">
+      <h2 class="menu__title" data-i18n="menu.title">Menu Kami</h2>
+      <p class="menu__sub">
+        <span data-i18n="menu.sub">Putar rodanya untuk menjelajah</span>
+        <span class="menu__dot" aria-hidden="true">&middot;</span>
+        <span><b id="menuTotal">22</b> <span data-i18n="menu.dishes">hidangan</span></span>
+      </p>
+      <ul class="chips" id="chips" role="group" aria-label="Filter kategori"></ul>
+    </header>
+
+    <div class="menu__stage">
+      <!-- Roue : cercle sur desktop, arc balayable au doigt sur telephone -->
+      <div class="wheel" id="wheel">
+        <div class="wheel__ring" id="ring" role="listbox" tabindex="0"
+             aria-label="Pilih hidangan" aria-activedescendant=""></div>
+        <div class="wheel__hub" id="hub">
+          <picture>
+            <source id="hubAvif" type="image/avif" srcset="">
+            <source id="hubWebp" type="image/webp" srcset="">
+            <img id="hubImg" src="" alt="" width="880" height="880" decoding="async">
+          </picture>
+        </div>
+        <p class="wheel__count" aria-hidden="true"><b id="wCur">1</b> / <span id="wTot">22</span></p>
+      </div>
+
+      <!-- Fiche du plat : a droite sur desktop, en dessous sur telephone -->
+      <article class="dish" id="dish" aria-live="polite">
+        <p class="dish__cat" id="dCat"></p>
+        <h3 class="dish__name" id="dName"></h3>
+        <p class="dish__price" id="dPriceRow" hidden><span id="dPrice"></span><span class="dish__prov" id="dProv"></span></p>
+        <p class="dish__desc" id="dDesc"></p>
+        <a class="btn btn--wa dish__cta" id="dOrder" href="#" target="_blank" rel="noopener noreferrer">
+          <span class="btn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#i-wa"/></svg></span>
+          <span data-i18n="menu.order">Pesan hidangan ini</span>
+        </a>
+        <div class="dish__nav">
+          <button type="button" class="dnav" id="dPrev" aria-label="Hidangan sebelumnya">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="dnav" id="dNext" aria-label="Hidangan berikutnya">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <p class="menu__fallback" id="menuFallback" hidden>
+      <span data-i18n="menu.fallback">Menu tidak dapat dimuat.</span>
+      <a data-wa href="#" target="_blank" rel="noopener noreferrer" data-i18n="menu.fallbackCta">Hubungi kami lewat WhatsApp</a>
+    </p>
+  </section>
+
   </main>
 </div><!-- /panel -->
 </div><!-- /page -->

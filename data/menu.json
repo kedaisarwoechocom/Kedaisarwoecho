@@ -11,6 +11,9 @@
     "  image           : nom du fichier sans extension, dans assets/img/dishes/.",
     "  populaire       : true = le plat apparait dans Pilihan Kami sur l accueil.",
     "",
+    "afficher_les_prix : false = le site montre la description a la place du prix.",
+    "                    Passez a true quand les vrais prix seront confirmes.",
+    "",
     "Apres modification, rechargez la page. Rien d autre a faire."
   ],
   "restaurant": {
@@ -18,7 +21,8 @@
     "whatsapp": "6281328767156",
     "whatsapp_affiche": "+62 813-2876-7156",
     "adresse": "Kompleks Pantai Pulang Sawal, Jl. Pantai Sel. Jawa, Tepus, Kec. Tepus, Kabupaten Gunung Kidul, DI Yogyakarta 55881",
-    "monnaie": "Rp"
+    "monnaie": "Rp",
+    "afficher_les_prix": false
   },
   "categories": [
     { "id": "seafood",    "nom_id": "Seafood",            "nom_en": "Seafood" },

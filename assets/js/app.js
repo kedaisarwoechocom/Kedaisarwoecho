@@ -1,9 +1,10 @@
 /* ============================================================
-   Kedai Sarwo Echo — comportements de base
+   Kedai Sarwo Echo
    - bascule de langue ID / EN
    - tiroir de navigation (telephone)
    - liens WhatsApp avec message pre-rempli
-   - "Pilihan Kami" rendu depuis data/menu.json (source unique des prix)
+   - "Pilihan Kami" et la roue du menu, rendus depuis data/menu.json
+     (source unique des prix : l'editer suffit, aucun code a toucher)
    ============================================================ */
 (() => {
   'use strict';
@@ -22,9 +23,13 @@
       'why.c2t': 'Rasa Otentik',       'why.c2p': 'Masakan otentik yang hanya ada di sini',
       'why.c3t': 'Kualitas Terjamin',  'why.c3p': 'Bahan-bahan masakan yang terjamin kualitasnya',
       'why.cta': 'Lihat Menu',
+      'menu.title': 'Menu Kami', 'menu.sub': 'Putar rodanya untuk menjelajah',
+      'menu.dishes': 'hidangan', 'menu.order': 'Pesan hidangan ini',
+      'menu.all': 'Semua',
+      'menu.fallback': 'Menu tidak dapat dimuat.',
+      'menu.fallbackCta': 'Hubungi kami lewat WhatsApp',
       'prov': 'harga sementara',
-      'wa.hello': 'Halo Kedai Sarwo Echo! Saya ingin memesan',
-      'wa.dish': 'Halo Kedai Sarwo Echo! Saya ingin memesan'
+      'wa.hello': 'Halo Kedai Sarwo Echo! Saya ingin memesan'
     },
     en: {
       'skip': 'Skip to content',
@@ -34,13 +39,17 @@
       'hero.lede': 'Founded upon a passion for fresh ocean bounty, Kedai Sarwo Echo has become a one-stop shop for all kinds of delectable, delicious seafood — and then some.',
       'hero.cta': 'Order Now', 'hero.pick': 'Our Selection',
       'why.title': 'Why choose us?',
-      'why.c1t': "Today's Catch",     'why.c1p': 'Guaranteed fresh from the sea to your table',
-      'why.c2t': 'Authentic Taste',   'why.c2p': 'Authentic cooking you will only find here',
-      'why.c3t': 'Guaranteed Quality','why.c3p': 'Ingredients whose quality we stand behind',
+      'why.c1t': "Today's Catch",      'why.c1p': 'Guaranteed fresh from the sea to your table',
+      'why.c2t': 'Authentic Taste',    'why.c2p': 'Authentic cooking you will only find here',
+      'why.c3t': 'Guaranteed Quality', 'why.c3p': 'Ingredients whose quality we stand behind',
       'why.cta': 'See the Menu',
+      'menu.title': 'Our Menu', 'menu.sub': 'Spin the wheel to explore',
+      'menu.dishes': 'dishes', 'menu.order': 'Order this dish',
+      'menu.all': 'All',
+      'menu.fallback': 'The menu could not be loaded.',
+      'menu.fallbackCta': 'Reach us on WhatsApp',
       'prov': 'provisional price',
-      'wa.hello': 'Hello Kedai Sarwo Echo! I would like to order',
-      'wa.dish': 'Hello Kedai Sarwo Echo! I would like to order'
+      'wa.hello': 'Hello Kedai Sarwo Echo! I would like to order'
     }
   };
 
@@ -48,19 +57,28 @@
   let lang = 'id';
   let data = null;
 
-  /* ---------- utilitaires ---------- */
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const t  = k => T[lang][k] ?? k;
 
-  /** 85000 -> "Rp 85.000" (format indonesien: point comme separateur de milliers) */
+  /** 85000 -> "Rp 85.000" (le point separe les milliers en indonesien) */
   const rupiah = n => 'Rp ' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const nom  = p => (lang === 'id' ? p.nom_id : p.nom_en);
+  const desc = p => (lang === 'id' ? p.desc_id : p.desc_en);
 
-  const waLink = (msg) => {
+  const waLink = msg => {
     const num = data?.restaurant?.whatsapp || '6281328767156';
     return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
   };
+  const waDish = p => waLink(showPrice()
+    ? `${t('wa.hello')} : ${nom(p)} — ${rupiah(p.prix)}/${p.unite}`
+    : `${t('wa.hello')} : ${nom(p)}`);
 
-  /* ---------- langue ---------- */
+  const img = (slug, w) => `assets/img/dishes/${slug}-${w}`;
+  const showPrice = () => data?.restaurant?.afficher_les_prix === true;
+  const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ═══════════ langue ═══════════ */
   function applyLang(next) {
     lang = T[next] ? next : 'id';
     document.documentElement.lang = lang;
@@ -75,42 +93,272 @@
       b.classList.toggle('is-on', on);
       b.setAttribute('aria-pressed', String(on));
     });
-    $$('[data-wa]').forEach(a => { a.href = waLink(T[lang]['wa.hello'] + ' :'); });
-    if (data) renderPicks();
+    $$('[data-wa]').forEach(a => { a.href = waLink(t('wa.hello') + ' :'); });
+    if (data) { renderPicks(); Wheel.retitle(); }
   }
 
-  /* ---------- Pilihan Kami ---------- */
+  /* ═══════════ Pilihan Kami ═══════════ */
   function renderPicks() {
     const host = $('#pickList');
     if (!host || !data) return;
-    const picks = data.plats.filter(p => p.populaire).slice(0, 2);
-    host.innerHTML = picks.map(p => {
-      const nom = lang === 'id' ? p.nom_id : p.nom_en;
+    host.innerHTML = data.plats.filter(p => p.populaire).slice(0, 2).map(p => {
+      const src  = img(p.image, 240);
       const unite = p.unite ? `/${p.unite}` : '';
-      const prov = p.prix_provisoire
-        ? ` <span class="pick__prov">(${T[lang]['prov']})</span>` : '';
-      const img = `assets/img/dishes/${p.image}`;
+      const prov  = p.prix_provisoire ? ` <span class="pick__prov">(${t('prov')})</span>` : '';
+      const sous = showPrice()
+        ? `<p class="pick__price">
+             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg>
+             <span>${rupiah(p.prix)}${unite}</span>${prov}
+           </p>`
+        : `<p class="pick__desc">${desc(p)}</p>`;
       return `<li class="pick__item">
-        <a class="pick__thumb" href="${waLink(`${T[lang]['wa.dish']} : ${nom}`)}"
-           target="_blank" rel="noopener noreferrer" aria-label="${nom}">
+        <a class="pick__thumb" href="${waDish(p)}" target="_blank" rel="noopener noreferrer"
+           aria-label="${nom(p)}">
           <picture>
-            <source type="image/avif" srcset="${img}-240.avif">
-            <source type="image/webp" srcset="${img}-240.webp">
-            <img src="${img}-480.png" alt="${nom}" width="240" height="240" loading="lazy" decoding="async">
+            <source type="image/avif" srcset="${src}.avif">
+            <source type="image/webp" srcset="${src}.webp">
+            <img src="${img(p.image, 480)}.png" alt="${nom(p)}" width="240" height="240"
+                 loading="lazy" decoding="async">
           </picture>
         </a>
         <div class="pick__body">
-          <p class="pick__name">${nom}</p>
-          <p class="pick__price">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg>
-            <span>${rupiah(p.prix)}${unite}</span>${prov}
-          </p>
+          <p class="pick__name">${nom(p)}</p>
+          ${sous}
         </div>
       </li>`;
     }).join('');
   }
 
-  /* ---------- tiroir de navigation ---------- */
+  /* ═══════════ la roue du menu ═══════════ */
+  const Wheel = {
+    all: [], items: [], cat: 'all', index: 0, rot: 0, dragging: false, raf: 0,
+
+    get big() { return matchMedia('(min-width: 861px)').matches; },
+    get step() { return this.items.length ? 360 / this.items.length : 0; },
+
+    init() {
+      this.ring = $('#ring'); this.hub = $('#hubImg');
+      this.avif = $('#hubAvif'); this.webp = $('#hubWebp');
+      if (!this.ring || !data) return;
+      this.all = data.plats;
+      $('#menuTotal').textContent = this.all.length;
+      $('#wTot').textContent = this.all.length;
+      $('#chips').addEventListener('click', e => {
+        const b = e.target.closest('.chip');
+        if (b) this.filter(b.dataset.cat);
+      });
+      this.ring.addEventListener('click', e => {
+        const b = e.target.closest('.sat');
+        if (b && !this.moved) this.select(+b.dataset.i);
+      });
+      this.buildChips();
+      this.filter('all');
+
+      // molette : un cran par geste
+      let lock = 0;
+      this.ring.addEventListener('wheel', e => {
+        if (!this.big) return;
+        e.preventDefault();
+        const now = Date.now();
+        if (now - lock < 140) return;
+        lock = now;
+        this.go(Math.sign(e.deltaY) || 1);
+      }, { passive: false });
+
+      this.initDrag();
+
+      this.ring.addEventListener('keydown', e => {
+        const k = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (k) { e.preventDefault(); this.go(k); }
+        else if (e.key === 'Home') { e.preventDefault(); this.select(0); }
+        else if (e.key === 'End')  { e.preventDefault(); this.select(this.items.length - 1); }
+      });
+
+      // telephone : la selection suit le defilement de l'arc
+      this.ring.addEventListener('scroll', () => {
+        if (this.big || this.dragging) return;
+        cancelAnimationFrame(this.raf);
+        this.raf = requestAnimationFrame(() => this.fromScroll());
+      }, { passive: true });
+
+      $('#dPrev').addEventListener('click', () => this.go(-1));
+      $('#dNext').addEventListener('click', () => this.go(1));
+
+      addEventListener('resize', () => {
+        clearTimeout(this._rz);
+        this._rz = setTimeout(() => this.layout(false), 140);
+      });
+      matchMedia('(min-width: 861px)').addEventListener('change', () => this.layout(false));
+    },
+
+    buildChips() {
+      const host = $('#chips');
+      const cats = [{ id: 'all', nom_id: t('menu.all'), nom_en: t('menu.all') }, ...data.categories];
+      host.innerHTML = cats.map(c =>
+        `<li><button type="button" class="chip" data-cat="${c.id}"
+           aria-pressed="${c.id === this.cat}">${lang === 'id' ? c.nom_id : c.nom_en}</button></li>`
+      ).join('');
+    },
+
+    filter(cat) {
+      this.cat = cat;
+      $$('#chips .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.cat === cat)));
+      this.items = cat === 'all' ? this.all.slice() : this.all.filter(p => p.categorie === cat);
+      $('#wTot').textContent = this.items.length;
+      this.ring.innerHTML = this.items.map((p, i) => {
+        const src = img(p.image, 240);
+        return `<button type="button" class="sat" role="option" id="sat${i}" data-i="${i}"
+                  aria-selected="${i === 0}" tabindex="-1" title="${nom(p)}">
+          <picture>
+            <source type="image/avif" srcset="${src}.avif">
+            <source type="image/webp" srcset="${src}.webp">
+            <img src="${img(p.image, 480)}.png" alt="${nom(p)}" width="120" height="120"
+                 loading="lazy" decoding="async">
+          </picture>
+        </button>`;
+      }).join('');
+      this.index = 0;
+      this.layout(false);
+      this.select(0, false);
+    },
+
+    /** place les vignettes : cercle sur desktop, arc au fil du defilement sinon */
+    layout(animate = true) {
+      const sats = $$('.sat', this.ring);
+      if (!sats.length) return;
+      if (this.big) {
+        const w = this.ring.clientWidth || 1;
+        const R = w * 0.44;
+        this.rot = -90 - this.index * this.step;
+        sats.forEach((s, i) => {
+          const a = (i * this.step + this.rot) * Math.PI / 180;
+          s.style.transition = animate && !reduceMotion()
+            ? 'transform .55s cubic-bezier(.22,1,.36,1)' : 'none';
+          s.style.transform = `translate(${(Math.cos(a) * R).toFixed(1)}px, ${(Math.sin(a) * R).toFixed(1)}px)`;
+        });
+        this.ring.scrollLeft = 0;
+      } else {
+        sats.forEach(s => { s.style.transition = 'none'; });
+        this.arc();
+      }
+    },
+
+    /** telephone : leger galbe, les vignettes s'abaissent en s'eloignant du centre */
+    arc() {
+      const mid = this.ring.scrollLeft + this.ring.clientWidth / 2;
+      $$('.sat', this.ring).forEach(s => {
+        const d = Math.max(-1, Math.min(1,
+          (s.offsetLeft + s.offsetWidth / 2 - mid) / (this.ring.clientWidth / 2 || 1)));
+        s.style.transform = `translateY(${(d * d * 46).toFixed(1)}px) scale(${(1 - Math.abs(d) * .26).toFixed(3)})`;
+      });
+    },
+
+    fromScroll() {
+      this.arc();
+      const mid = this.ring.scrollLeft + this.ring.clientWidth / 2;
+      let best = 0, bd = Infinity;
+      $$('.sat', this.ring).forEach((s, i) => {
+        const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid);
+        if (d < bd) { bd = d; best = i; }
+      });
+      if (best !== this.index) { this.index = best; this.render(); }
+    },
+
+    go(dir) {
+      const n = this.items.length;
+      if (!n) return;
+      this.select((this.index + dir % n + n) % n);
+    },
+
+    select(i, animate = true) {
+      const n = this.items.length;
+      if (!n) return;
+      this.index = ((i % n) + n) % n;
+      if (this.big) this.layout(animate);
+      else {
+        const s = $$('.sat', this.ring)[this.index];
+        if (s) this.ring.scrollTo({
+          left: s.offsetLeft + s.offsetWidth / 2 - this.ring.clientWidth / 2,
+          behavior: animate && !reduceMotion() ? 'smooth' : 'auto',
+        });
+      }
+      this.render();
+    },
+
+    render() {
+      const p = this.items[this.index];
+      if (!p) return;
+      $$('.sat', this.ring).forEach((s, i) => s.setAttribute('aria-selected', String(i === this.index)));
+      this.ring.setAttribute('aria-activedescendant', `sat${this.index}`);
+
+      const s4 = img(p.image, 480), s8 = img(p.image, 880);
+      const sizes = '(max-width: 860px) 52vw, 290px';
+      this.avif.srcset = `${s4}.avif 480w, ${s8}.avif 880w`; this.avif.sizes = sizes;
+      this.webp.srcset = `${s4}.webp 480w, ${s8}.webp 880w`; this.webp.sizes = sizes;
+      this.hub.src = `${s4}.png`;
+      this.hub.alt = nom(p);
+
+      const cat = data.categories.find(c => c.id === p.categorie);
+      $('#dCat').textContent = cat ? (lang === 'id' ? cat.nom_id : cat.nom_en) : '';
+      $('#dName').textContent = nom(p);
+      $('#dPriceRow').hidden = !showPrice();
+      $('#dPrice').textContent = `${rupiah(p.prix)} / ${p.unite}`;
+      $('#dProv').textContent = p.prix_provisoire ? `(${t('prov')})` : '';
+      $('#dDesc').textContent = desc(p);
+      $('#dOrder').href = waDish(p);
+      $('#wCur').textContent = this.index + 1;
+    },
+
+    retitle() {
+      if (!this.items.length) return;
+      const keep = this.index;
+      this.buildChips(); this.filter(this.cat); this.select(keep, false);
+    },
+
+    /** desktop : faire tourner la roue au glisser */
+    initDrag() {
+      const ring = this.ring;
+      let id = null, a0 = 0, r0 = 0;
+      this.moved = false;
+      const angle = e => {
+        const b = ring.getBoundingClientRect();
+        return Math.atan2(e.clientY - (b.top + b.height / 2),
+                          e.clientX - (b.left + b.width / 2)) * 180 / Math.PI;
+      };
+      ring.addEventListener('pointerdown', e => {
+        if (!this.big || e.button !== 0) return;
+        id = e.pointerId; a0 = angle(e); r0 = this.rot; this.moved = false;
+        this.dragging = true; ring.classList.add('is-drag');
+        ring.setPointerCapture(id);
+      });
+      ring.addEventListener('pointermove', e => {
+        if (id === null || e.pointerId !== id) return;
+        const d = angle(e) - a0;
+        if (Math.abs(d) > 2) this.moved = true;
+        this.rot = r0 + d;
+        const R = (ring.clientWidth || 1) * 0.44;
+        $$('.sat', ring).forEach((s, i) => {
+          const a = (i * this.step + this.rot) * Math.PI / 180;
+          s.style.transition = 'none';
+          s.style.transform = `translate(${(Math.cos(a) * R).toFixed(1)}px, ${(Math.sin(a) * R).toFixed(1)}px)`;
+        });
+      });
+      const end = e => {
+        if (id === null || (e && e.pointerId !== id)) return;
+        ring.releasePointerCapture?.(id);
+        id = null; this.dragging = false; ring.classList.remove('is-drag');
+        if (!this.moved) return;
+        const n = this.items.length;
+        this.select(((Math.round((-90 - this.rot) / this.step) % n) + n) % n);
+      };
+      ring.addEventListener('pointerup', end);
+      ring.addEventListener('pointercancel', end);
+      // un clic net ne doit pas etre avale par la fin du glisser
+      ring.addEventListener('pointerdown', () => { this.moved = false; }, true);
+    },
+  };
+
+  /* ═══════════ tiroir de navigation ═══════════ */
   function initNav() {
     const burger = $('#burger'), links = $('#navLinks');
     if (!burger || !links) return;
@@ -118,8 +366,7 @@
       burger.setAttribute('aria-expanded', String(open));
       links.classList.toggle('is-open', open);
     };
-    burger.addEventListener('click', () =>
-      setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+    burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
     links.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
     document.addEventListener('click', e => {
@@ -127,14 +374,13 @@
     });
   }
 
-  /* ---------- demarrage ---------- */
+  /* ═══════════ demarrage ═══════════ */
   function init() {
     initNav();
     $$('.lang__btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
 
-    // Indonesien par defaut (clientele locale d'abord) ; anglais si le
-    // navigateur est anglophone. ?lang=en dans l'URL force la langue, ce qui
-    // permet de partager un lien deja traduit. Le choix du visiteur prime ensuite.
+    // Indonesien par defaut (clientele locale d'abord) ; anglais si le navigateur
+    // est anglophone. ?lang=en force la langue, pour partager un lien traduit.
     let saved = null;
     try { saved = localStorage.getItem(STORE); } catch (_) {}
     const forced = new URLSearchParams(location.search).get('lang');
@@ -142,9 +388,15 @@
     const start = (T[forced] ? forced : null) || saved || (navEn ? 'en' : 'id');
 
     fetch('data/menu.json')
-      .then(r => r.ok ? r.json() : Promise.reject(new Error(r.status)))
-      .then(j => { data = j; applyLang(start); })
-      .catch(err => { console.warn('menu.json indisponible :', err.message); applyLang(start); });
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then(j => { data = j; applyLang(start); Wheel.init(); })
+      .catch(err => {
+        console.warn('menu.json indisponible :', err.message);
+        applyLang(start);
+        const fb = $('#menuFallback'), st = $('.menu__stage');
+        if (fb) fb.hidden = false;
+        if (st) st.hidden = true;
+      });
   }
 
   if (document.readyState === 'loading')
