@@ -15,6 +15,7 @@
       'skip': 'Langsung ke konten',
       'nav.home': 'Beranda', 'nav.menu': 'Menu', 'nav.about': 'Tentang', 'nav.contact': 'Kontak',
       'nav.order': 'Pesan', 'nav.toggle': 'Buka menu',
+      'a11y.top': 'Kembali ke atas halaman',
       'hero.t1': 'Kami ciptakan kenangan', 'hero.t2': 'Seafood Segar', 'hero.t3': 'untuk Anda!',
       'hero.lede': 'Berawal dari kecintaan pada hasil laut segar, Kedai Sarwo Echo kini menjadi tempat untuk segala macam hidangan seafood yang lezat — dan masih banyak lagi.',
       'hero.cta': 'Pesan Sekarang', 'hero.pick': 'Pilihan Kami',
@@ -44,6 +45,7 @@
       'skip': 'Skip to content',
       'nav.home': 'Home', 'nav.menu': 'Menu', 'nav.about': 'About', 'nav.contact': 'Contact',
       'nav.order': 'Order', 'nav.toggle': 'Open menu',
+      'a11y.top': 'Back to top of page',
       'hero.t1': 'Let us create', 'hero.t2': 'Fresh Seafood', 'hero.t3': 'memory for you!',
       'hero.lede': 'Founded upon a passion for fresh ocean bounty, Kedai Sarwo Echo has become a one-stop shop for all kinds of delectable, delicious seafood — and then some.',
       'hero.cta': 'Order Now', 'hero.pick': 'Our Selection',
@@ -106,6 +108,13 @@
     $$('[data-i18n]').forEach(el => {
       const v = T[lang][el.dataset.i18n];
       if (v != null) el.textContent = v;
+    });
+    $$('[data-i18n-label]').forEach(el => {
+      const v = T[lang][el.dataset.i18nLabel];
+      if (v != null) el.setAttribute('aria-label', v);
+    });
+    $$('.langsw__b').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
     });
     $$('[data-wa]').forEach(a => { a.href = waLink(t('wa.hello') + ' :'); });
     if (data) { renderPicks(); Wheel.retitle(); }
@@ -560,6 +569,45 @@
     });
   }
 
+  /* ═══════════ bascule de langue ═══════════ */
+  function initLangue() {
+    const sw = $('.langsw');
+    if (!sw) return;
+    sw.addEventListener('click', e => {
+      const b = e.target.closest('.langsw__b');
+      if (b && b.dataset.lang !== lang) applyLang(b.dataset.lang);
+    });
+  }
+
+  /* ═══════════ revenir en haut ═══════════ */
+  /* Visible seulement quand le doigt bouge : le bouton s'efface de lui-meme
+     apres un temps d'arret, pour ne pas masquer le contenu en permanence. */
+  function initHaut() {
+    const b = $('#toTop');
+    if (!b) return;
+    const SEUIL = 620;      // px : en dessous, le haut de page est deja a portee
+    const REPOS = 1600;     // ms d'immobilite avant de s'effacer
+    let minuteur = 0;
+
+    const cacher = () => b.classList.remove('is-on');
+    const montrer = () => {
+      clearTimeout(minuteur);
+      if (scrollY < SEUIL) { cacher(); return; }
+      b.classList.add('is-on');
+      minuteur = setTimeout(cacher, REPOS);
+    };
+
+    addEventListener('scroll', montrer, { passive: true });
+    b.addEventListener('click', () => {
+      clearTimeout(minuteur);
+      cacher();
+      scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' });
+    });
+    // le bouton ne doit pas rester allume si le doigt se pose dessus
+    b.addEventListener('pointerenter', () => clearTimeout(minuteur));
+    b.addEventListener('pointerleave', montrer);
+  }
+
   /* ═══════════ animations, chargees seulement si elles ont du sens ═══════════ */
   function chargerAnimations() {
     // respect de prefers-reduced-motion : on ne telecharge meme pas les 130 Ko
@@ -586,6 +634,8 @@
   /* ═══════════ demarrage ═══════════ */
   function init() {
     initNav();
+    initLangue();
+    initHaut();
 
     // Indonesien par defaut (clientele locale d'abord) ; anglais si le navigateur
     // est anglophone. ?lang=en force la langue, pour partager un lien traduit.

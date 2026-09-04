@@ -57,6 +57,17 @@
       </picture>
     </a>
 
+    <div class="langsw" role="group" aria-label="Bahasa / Language">
+      <button type="button" class="langsw__b" data-lang="id" aria-pressed="true">
+        <svg viewBox="0 0 60 40" aria-hidden="true" focusable="false"><use href="#f-id"/></svg>
+        <span class="sr">Bahasa Indonesia</span>
+      </button>
+      <button type="button" class="langsw__b" data-lang="en" aria-pressed="false">
+        <svg viewBox="0 0 60 40" aria-hidden="true" focusable="false"><use href="#f-gb"/></svg>
+        <span class="sr">English</span>
+      </button>
+    </div>
+
     <nav class="nav__links" id="navLinks" aria-label="Menu utama">
       <a href="#beranda" class="is-active" data-i18n="nav.home">Beranda</a>
       <a href="#menu" data-i18n="nav.menu">Menu</a>
@@ -396,11 +407,32 @@
   <symbol id="i-star" viewBox="0 0 24 24">
     <path fill="currentColor" d="m12 2.6 2.9 5.88 6.5.95-4.7 4.58 1.11 6.47L12 17.42l-5.81 3.06 1.11-6.47-4.7-4.58 6.5-.95z"/>
   </symbol>
+  <symbol id="f-id" viewBox="0 0 60 40">
+    <path fill="#ce1126" d="M0 0h60v20H0z"/><path fill="#fff" d="M0 20h60v20H0z"/>
+  </symbol>
+  <symbol id="f-gb" viewBox="0 0 60 40">
+    <clipPath id="f-gb-c"><path d="M0 0h60v40H0z"/></clipPath>
+    <g clip-path="url(#f-gb-c)">
+      <path fill="#012169" d="M0 0h60v40H0z"/>
+      <path stroke="#fff" stroke-width="8" d="m0 0 60 40M60 0 0 40"/>
+      <path stroke="#c8102e" stroke-width="4" d="m0 0 60 40M60 0 0 40"/>
+      <path stroke="#fff" stroke-width="13" d="M30 0v40M0 20h60"/>
+      <path stroke="#c8102e" stroke-width="8" d="M30 0v40M0 20h60"/>
+    </g>
+  </symbol>
+  <symbol id="i-up" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round" d="M12 19V6m0 0-6.4 6.4M12 6l6.4 6.4"/>
+  </symbol>
   <symbol id="i-heart" viewBox="0 0 24 24">
     <path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"
       d="M12 20.3 4.6 13a4.6 4.6 0 0 1 0-6.5 4.6 4.6 0 0 1 6.5 0l.9.9.9-.9a4.6 4.6 0 0 1 6.5 0 4.6 4.6 0 0 1 0 6.5z"/>
   </symbol>
 </svg>
+
+<button type="button" class="totop" id="toTop" aria-label="Kembali ke atas" data-i18n-label="a11y.top">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-up"/></svg>
+</button>
 
 <script src="assets/js/app.js" defer></script>
 </body>

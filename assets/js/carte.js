@@ -11,7 +11,10 @@
       'carte.skip': 'Langsung ke daftar hidangan',
       'carte.back': 'Situs',
       'carte.title': 'Kartu Menu',
-      'carte.hint': 'Pilih hidangan yang Anda inginkan, lalu tekan tombol pesan di bawah. Daftar pilihan Anda dikirim langsung ke dapur kami lewat WhatsApp.',
+      'carte.hint': 'Pilih hidangan yang Anda inginkan, isi nomor meja Anda, lalu tekan tombol pesan di bawah. Daftar pilihan Anda dikirim langsung ke dapur kami lewat WhatsApp, lengkap dengan nomor meja Anda.',
+      'carte.table': 'Nomor meja',
+      'carte.tableAide': 'Isi dulu nomor meja Anda, supaya pesanan diantar ke meja yang tepat.',
+      'carte.top': 'Kembali ke atas halaman',
       'carte.all': 'Semua',
       'carte.add': 'Pilih',
       'carte.added': 'Dipilih',
@@ -24,13 +27,17 @@
       'carte.errCta': 'Hubungi kami lewat WhatsApp',
       'prov': 'harga sementara',
       'wa.hello': 'Halo Kedai Sarwo Echo! Saya ingin memesan',
+      'wa.meja': 'Nomor meja',
       'wa.merci': 'Terima kasih!',
     },
     en: {
       'carte.skip': 'Skip to the dishes',
       'carte.back': 'Website',
       'carte.title': 'Menu Card',
-      'carte.hint': 'Choose the dishes you would like, then tap the order button below. Your list is sent straight to our kitchen on WhatsApp.',
+      'carte.hint': 'Choose the dishes you would like, enter your table number, then tap the order button below. Your list is sent straight to our kitchen on WhatsApp, together with your table number.',
+      'carte.table': 'Table no.',
+      'carte.tableAide': 'Please enter your table number first, so your order reaches the right table.',
+      'carte.top': 'Back to top of page',
       'carte.all': 'All',
       'carte.add': 'Choose',
       'carte.added': 'Chosen',
@@ -43,6 +50,7 @@
       'carte.errCta': 'Reach us on WhatsApp',
       'prov': 'provisional price',
       'wa.hello': 'Hello Kedai Sarwo Echo! I would like to order',
+      'wa.meja': 'Table number',
       'wa.merci': 'Thank you!',
     },
   };
@@ -65,13 +73,19 @@
   const waLien = msg =>
     `https://wa.me/${menu?.restaurant?.whatsapp || '6281328767156'}?text=${encodeURIComponent(msg)}`;
 
-  /** un seul message pour toute la selection */
+  /** numero de table saisi, nettoye ; chaine vide s'il manque */
+  const meja = () => ($('#meja')?.value || '').trim().slice(0, 4);
+
+  /** un seul message pour toute la selection, numero de table en tete */
   function messageCommande() {
     const lignes = menu.plats.filter(p => choisis.has(p.image)).map(p => {
       const q = prixVisible() ? `  (${rupiah(p.prix)}/${p.unite})` : '';
       return `• ${nom(p)}${q}`;
     });
-    return `${t('wa.hello')} :\n${lignes.join('\n')}\n\n${t('wa.merci')}`;
+    // la table d'abord : c'est la premiere chose que la cuisine doit lire
+    const n = meja();
+    const tete = n ? `${t('wa.hello')} :\n${t('wa.meja')} : ${n}` : `${t('wa.hello')} :`;
+    return `${tete}\n${lignes.join('\n')}\n\n${t('wa.merci')}`;
   }
 
   /* ---------- rendu ---------- */
@@ -163,9 +177,38 @@
       const v = T[lang][el.dataset.i18n];
       if (v != null) el.textContent = v;
     });
+    $$('[data-i18n-label]').forEach(el => {
+      const v = T[lang][el.dataset.i18nLabel];
+      if (v != null) el.setAttribute('aria-label', v);
+    });
   }
 
   function tout() { libelles(); chips(); cartes(); panier(); pied(); }
+
+  /* ---------- revenir en haut ---------- */
+  /* Efface au repos : la carte se lit en descendant, un bouton permanent
+     mangerait une main de contenu sur un telephone. */
+  function initHaut() {
+    const b = $('#toTop');
+    if (!b) return;
+    const SEUIL = 620, REPOS = 1600;
+    let minuteur = 0;
+    const cacher = () => b.classList.remove('is-on');
+    const montrer = () => {
+      clearTimeout(minuteur);
+      if (scrollY < SEUIL) { cacher(); return; }
+      b.classList.add('is-on');
+      minuteur = setTimeout(cacher, REPOS);
+    };
+    const doux = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    addEventListener('scroll', montrer, { passive: true });
+    b.addEventListener('click', () => {
+      clearTimeout(minuteur); cacher();
+      scrollTo({ top: 0, behavior: doux ? 'smooth' : 'auto' });
+    });
+    b.addEventListener('pointerenter', () => clearTimeout(minuteur));
+    b.addEventListener('pointerleave', montrer);
+  }
 
   /* ---------- interactions ---------- */
   function init() {
@@ -182,6 +225,20 @@
         return;
       }
 
+      // Sans numero de table la cuisine sait quoi preparer, mais pas ou le
+      // porter : on bloque l'envoi et on montre ou taper.
+      const envoi = e.target.closest('#panierCta');
+      if (envoi) {
+        if (!meja()) {
+          e.preventDefault();
+          $('#panier').classList.add('is-manquant');
+          $('#meja')?.focus();
+          return;
+        }
+        envoi.href = waLien(messageCommande());   // toujours le message le plus frais
+        return;
+      }
+
       if (e.target.closest('#panierVider')) {
         const vides = [...choisis];
         choisis.clear();
@@ -189,6 +246,20 @@
         vides.forEach(majCarte); panier();
       }
     });
+
+    const champ = $('#meja');
+    if (champ) {
+      try { champ.value = sessionStorage.getItem('kse-meja') || ''; } catch (_) {}
+      champ.addEventListener('input', () => {
+        // chiffres et lettres seulement : certaines tables sont numerotees A1, B2
+        champ.value = champ.value.replace(/[^0-9A-Za-z]/g, '').slice(0, 4).toUpperCase();
+        try { sessionStorage.setItem('kse-meja', champ.value); } catch (_) {}
+        if (champ.value) $('#panier').classList.remove('is-manquant');
+        if (menu) panier();
+      });
+    }
+
+    initHaut();
 
     // la selection survit a un rechargement de page pendant le repas
     try {

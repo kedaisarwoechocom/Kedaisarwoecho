@@ -71,8 +71,13 @@
   /* ═══════════ entree, au chargement ═══════════ */
   const intro = gsap.timeline({ defaults: { ease: OUT } });
 
-  intro.from('.nav__logo, .nav__links a, .nav__end > *',
-    { y: -18, autoAlpha: 0, duration: .5, stagger: .045 });
+  /* .nav__end entre d'un seul bloc : anime element par element, le bouton
+     WhatsApp et le burger se decalaient l'un par rapport a l'autre, et un
+     transform residuel laissait le bouton 18 px trop haut si l'animation
+     etait interrompue. clearProps rend la main au CSS une fois fini. */
+  intro.from('.nav__logo, .langsw, .nav__links a, .nav__end',
+    { y: -18, autoAlpha: 0, duration: .5, stagger: .045,
+      clearProps: 'transform,opacity,visibility' });
 
   const titre = $('.hero__title');
   if (titre) {
@@ -161,7 +166,7 @@
       autoAlpha: 0, scale: .6, duration: .9, ease: 'back.out(1.4)', delay: .35,
       scrollTrigger: { trigger: '.menu__stage', start: 'top 84%', once: true },
     });
-    monte('.dish > *', { trigger: '.menu__stage', y: 24, stagger: .07, start: 'top 78%' });
+    monte('.dish > *', { trigger: '.menu__stage', y: 12, stagger: .05, start: 'top 78%' });
   }
 
   monte('.story__text p', { trigger: '.story__inner', y: 28, stagger: .12 });

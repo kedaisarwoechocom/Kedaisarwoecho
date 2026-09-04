@@ -100,8 +100,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__logo { flex: none; display: block; }
 .nav__logo img { width: clamp(48px, 4.6vw, 66px); height: auto; }
 
-.nav__links { display: flex; align-items: center; gap: clamp(18px, 3.4vw, 48px);
-              margin-left: auto; }   /* le menu est cale a droite */
+.nav__links { display: flex; align-items: center; gap: clamp(18px, 3.4vw, 48px); }
 .nav__links a {
   font-size: var(--t-nav); color: var(--nav-fg);
   padding: 10px 2px; position: relative;
@@ -117,6 +116,27 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__links a:hover::after, .nav__links a.is-active::after { transform: scaleX(1); }
 
 .nav__end { display: flex; align-items: center; gap: clamp(8px, 1.2vw, 16px); }
+
+/* Bascule de langue : deux drapeaux, pas de texte — lisible sans savoir lire
+   la langue en face. C'est elle qui pousse le reste de la barre a droite. */
+.langsw { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.langsw__b {
+  width: var(--tap); height: var(--tap);
+  display: grid; place-items: center; border-radius: var(--r-sm);
+  transition: background var(--dur-1) var(--ease-out);
+}
+.langsw__b svg {
+  width: 26px; height: 18px; border-radius: 3px;
+  box-shadow: 0 0 0 1px var(--line);
+  opacity: .42; filter: saturate(.35);
+  transition: opacity var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease-out),
+              transform var(--dur-1) var(--ease-out);
+}
+.langsw__b:hover svg { opacity: .78; filter: none; }
+.langsw__b[aria-pressed="true"] svg {
+  opacity: 1; filter: none; transform: scale(1.06);
+  box-shadow: 0 0 0 2px var(--fg-title);
+}
 
 
 /* WhatsApp compact — reste visible a toutes les largeurs */
@@ -145,6 +165,28 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .burger[aria-expanded="true"] i:nth-child(1) { transform: translateY(6.4px) rotate(45deg); }
 .burger[aria-expanded="true"] i:nth-child(2) { opacity: 0; }
 .burger[aria-expanded="true"] i:nth-child(3) { transform: translateY(-6.4px) rotate(-45deg); }
+
+/* Revenir en haut : invisible tant qu'on ne fait rien, apparait au defilement.
+   pointer-events est coupe a l'etat masque, sinon il intercepte les taps. */
+.totop {
+  position: fixed; right: clamp(14px, 2.4vw, 28px); bottom: clamp(14px, 2.4vw, 28px);
+  z-index: 45; width: var(--tap); height: var(--tap);
+  display: grid; place-items: center;
+  background: var(--btn-bg); color: var(--btn-fg);
+  border-radius: 50%; box-shadow: var(--sh-float);
+  opacity: 0; visibility: hidden; transform: translateY(10px) scale(.9);
+  pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-out),
+              transform var(--dur-2) var(--ease-out),
+              visibility 0s linear var(--dur-2);
+}
+.totop.is-on {
+  opacity: 1; visibility: visible; transform: none;
+  pointer-events: auto; transition-delay: 0s;
+}
+.totop:hover { background: var(--btn-bg-hover); }
+.totop:active { transform: scale(.94); }
+.totop svg { width: 22px; height: 22px; }
 
 /* ══════════════ BOUTONS ══════════════ */
 .btn {
@@ -520,8 +562,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ══════════════ TELEPHONE — mise en page CONCUE, pas reduite ══════════════ */
 @media (max-width: 860px) {
   .nav { min-height: var(--tap); gap: 10px; }
-  .nav__links { margin-left: 0; }
-  .nav__end { margin-left: auto; }   /* le tiroir est en absolu : c'est lui qui pousse */
+  .langsw { margin-left: 0; gap: 0; }   /* colle au logo : le tiroir est en absolu */
+  .nav__end { margin-left: auto; }
+
+  /* Fiche du plat : tout est centre sous la roue, et les fleches passent
+     juste sous le compteur — avant elles tombaient contre le bouton de
+     commande, deux cibles tactiles cote a cote au meme endroit. */
+  .dish { align-items: center; text-align: center; }
+  .dish__nav { order: -1; margin-top: 0; margin-bottom: 2px; }
+  .dish__desc { margin-inline: auto; }
+  .dish__price { justify-content: center; }
+  .dish__cta { align-self: center; }
   .wa-mini { display: inline-flex; }         /* WhatsApp toujours visible */
   .burger  { display: grid; }
 
@@ -591,6 +642,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 @media (max-width: 420px) {
   /* place gagnee pour garder des cibles de 44px partout */
+  /* le bouton garde ses 44px de cible tactile : seul le drapeau retrecit */
+  .langsw__b svg { width: 23px; height: 16px; }
   .wa-mini { padding: 0 12px; min-width: var(--tap); justify-content: center; }
   .wa-mini span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
     .wcard { grid-template-columns: 1fr; grid-template-areas: "ico" "titre" "texte"; row-gap: 6px; }
