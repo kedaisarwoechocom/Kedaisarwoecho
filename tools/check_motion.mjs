@@ -84,6 +84,14 @@ const { result } = await S('Runtime.evaluate', {
       navStuck: document.querySelector('.nav')?.classList.contains('is-stuck') ?? null,
       navPos: getComputedStyle(document.querySelector('.nav')).position,
       scrollW: document.documentElement.scrollWidth, clientW: document.documentElement.clientWidth,
+      jsonLd: (() => { const e = document.querySelector('script[type="application/ld+json"]');
+                       if (!e) return 'ABSENT';
+                       try { const o = JSON.parse(e.textContent);
+                             return o['@type'] + ' / ' + (o.aggregateRating ? 'note ' + o.aggregateRating.ratingValue : 'sans note') +
+                                    ' / ' + (o.geo ? 'geo ok' : 'sans geo') + ' / ' + (o.openingHoursSpecification ? 'horaires publies' : 'horaires non publies'); }
+                       catch (x) { return 'JSON INVALIDE'; } })(),
+      carte: document.querySelector('#fMap')?.src?.slice(0, 46) || 'absente',
+      police: [...document.fonts].filter(f => f.status === 'loaded').length,
     };
   })()`,
 });
@@ -91,6 +99,9 @@ const v = result.value;
 console.log(`  bibliotheques chargees : gsap=${v.gsap} ScrollTrigger=${v.st} Lenis=${v.lenis}`);
 console.log(`  nav : position ${v.navPos}, condensee ${v.navStuck}`);
 console.log(`  debordement horizontal : ${v.scrollW - v.clientW}px`);
+console.log(`  donnees structurees : ${v.jsonLd}`);
+console.log(`  carte : ${v.carte}`);
+console.log(`  polices chargees : ${v.police}`);
 console.log(`  elements restes invisibles : ${v.invisibles.length ? '\n    - ' + v.invisibles.join('\n    - ') : 'aucun'}`);
 if (logs.length) console.log('  console :\n    ' + logs.slice(0, 8).join('\n    '));
 ws.close(); chrome.kill();

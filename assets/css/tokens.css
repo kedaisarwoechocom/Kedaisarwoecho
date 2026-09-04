@@ -58,6 +58,12 @@
   --sh-btn: 0 6px 0 -2px rgba(74,93,85,.28), 0 10px 22px -12px rgba(46,32,25,.45);
   --sh-card: 0 2px 3px rgba(110,82,71,.05), 0 18px 34px -22px rgba(110,82,71,.4);
   --sh-float: 0 30px 60px -30px rgba(110,82,71,.5);
+  --sh-btn-active: 0 3px 0 -2px rgba(74,93,85,.28);
+  --sh-nav: 0 1px 0 rgba(206,188,178,.7), 0 10px 26px -20px rgba(110,82,71,.5);
+  --sh-nav-off: 0 1px 0 rgba(206,188,178,0), 0 10px 26px -20px rgba(110,82,71,0);
+  --glow-hub: drop-shadow(0 22px 26px rgba(110,82,71,.22));
+  --line-soft: rgba(206,188,178,.45);
+  --halo-hub: rgba(206,188,178,.22);
 
   --ease-out: cubic-bezier(.22,1,.36,1);
   --ease-soft: cubic-bezier(.32,.72,0,1);

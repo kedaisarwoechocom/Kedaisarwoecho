@@ -381,6 +381,7 @@
     render() {
       if (!site) return;
       this.story(); this.gallery(); this.reviews(); this.find(); this.footer();
+      if (!this._ld) { this._ld = true; this.jsonLd(); }
     },
 
     story() {
@@ -419,12 +420,13 @@
       for (let i = 1; i <= 5; i++) {
         const plein = note >= i, part = !plein && note > i - 1;
         if (part) {
-          const cut = Math.round((1 - (note - (i - 1))) * 100);
-          box.insertAdjacentHTML('beforeend',
-            `<span class="half" style="--cut:${cut}%">
-               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>
-               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>
-             </span>`);
+          // pose par CSSOM et non en attribut style : la CSP interdit le style en ligne
+          const sp = document.createElement('span');
+          sp.className = 'half';
+          sp.style.setProperty('--cut', Math.round((1 - (note - (i - 1))) * 100) + '%');
+          sp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>' +
+                         '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>';
+          box.appendChild(sp);
         } else {
           box.insertAdjacentHTML('beforeend',
             `<svg class="${plein ? 'on' : ''}" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-star"/></svg>`);
@@ -474,6 +476,51 @@
     },
 
     footer() { $('#footYear').textContent = new Date().getFullYear(); },
+
+    /* Donnees structurees Restaurant : c'est ce qui fait remonter le restaurant
+       dans Google Maps. Genere depuis les fichiers de donnees pour qu'il n'y ait
+       jamais deux verites a maintenir. */
+    jsonLd() {
+      if (!site || !data) return;
+      const r = data.restaurant, l = site.lieu, av = site.avis;
+      const jours = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      const ld = {
+        '@context': 'https://schema.org', '@type': 'Restaurant',
+        name: r.nom,
+        description: document.querySelector('meta[name="description"]')?.content || '',
+        url: location.origin + location.pathname,
+        image: new URL('assets/img/brand/icon-512.png', location.href).href,
+        telephone: '+' + r.whatsapp,
+        servesCuisine: ['Seafood', 'Indonesian'],
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: [l.adresse_l1, l.adresse_l2].filter(Boolean).join(', '),
+          addressLocality: 'Tepus', addressRegion: 'DI Yogyakarta',
+          postalCode: '55881', addressCountry: 'ID',
+        },
+      };
+      if (Number.isFinite(+l.latitude) && Number.isFinite(+l.longitude))
+        ld.geo = { '@type': 'GeoCoordinates', latitude: +l.latitude, longitude: +l.longitude };
+      if (av?.note && av?.nombre)
+        ld.aggregateRating = { '@type': 'AggregateRating', ratingValue: av.note,
+                               reviewCount: av.nombre, bestRating: 5 };
+      // horaires publies seulement une fois confirmes : mieux vaut rien qu'un faux
+      if (l.horaires_confirmes === true)
+        ld.openingHoursSpecification = (l.horaires || []).map((x, i) => {
+          const [o, f] = String(x.h).split(/\s*[–-]\s*/);
+          return o && f ? { '@type': 'OpeningHoursSpecification', dayOfWeek: jours[i],
+                            opens: o.replace('.', ':'), closes: f.replace('.', ':') } : null;
+        }).filter(Boolean);
+      const prix = data.plats.map(p => p.prix).filter(Number.isFinite);
+      if (prix.length && r.afficher_les_prix === true)
+        ld.priceRange = 'Rp ' + Math.min(...prix).toLocaleString('id-ID') +
+                        ' - Rp ' + Math.max(...prix).toLocaleString('id-ID');
+
+      const el = document.createElement('script');
+      el.type = 'application/ld+json';
+      el.textContent = JSON.stringify(ld);
+      document.head.appendChild(el);
+    },
   };
 
   /** echappe le texte venant des fichiers de donnees avant insertion en HTML */

@@ -21,6 +21,7 @@ img, svg, picture { display: block; max-width: 100%; }
 /* toute regle `display` d'auteur bat le `display:none` que le navigateur applique
    a [hidden] : sans ce garde-fou, masquer un element en flex ou grid ne marche pas. */
 [hidden] { display: none !important; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
 img { height: auto; }
 h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 800;
              line-height: var(--lh-tight); }
@@ -80,7 +81,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   min-height: 62px;
   padding: clamp(10px, 1.3vw, 20px) var(--pad-x) clamp(6px, .8vw, 12px);
   position: sticky; top: 0; z-index: 40;
-  transition: padding var(--dur-2) var(--ease-out);
 }
 /* la bande de fond deborde jusqu'aux bords de l'ecran : sans ca, le contenu
    defilerait a nu de chaque cote de la colonne pendant que la nav reste collee. */
@@ -88,12 +88,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   content: ""; position: absolute; inset: 0 50% 0 50%;
   width: 100vw; transform: translateX(-50%); z-index: -1;
   background: var(--bg-panel);
-  box-shadow: 0 1px 0 rgba(206,188,178,0), 0 10px 26px -20px rgba(110,82,71,0);
+  box-shadow: var(--sh-nav-off);
   transition: box-shadow var(--dur-2) var(--ease-out);
 }
-.nav.is-stuck { padding-top: clamp(8px, .9vw, 12px); padding-bottom: clamp(8px, .9vw, 12px); }
+/* condensation par transform : anime sur le GPU, sans recalcul de mise en page */
+.nav__logo img { transition: transform var(--dur-2) var(--ease-out); transform-origin: left center; }
+.nav.is-stuck .nav__logo img { transform: scale(.84); }
 .nav.is-stuck::before {
-  box-shadow: 0 1px 0 rgba(206,188,178,.7), 0 10px 26px -20px rgba(110,82,71,.5);
+  box-shadow: var(--sh-nav);
 }
 .nav__logo { flex: none; display: block; }
 .nav__logo img { width: clamp(48px, 4.6vw, 66px); height: auto; }
@@ -174,7 +176,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
               box-shadow var(--dur-1) var(--ease-out);
 }
 .btn:hover { background: var(--btn-bg-hover); transform: translateY(-2px); }
-.btn:active { transform: translateY(1px); box-shadow: 0 3px 0 -2px rgba(74,93,85,.28); }
+.btn:active { transform: translateY(1px); box-shadow: var(--sh-btn-active); }
 .btn__ico {
   width: clamp(30px,2.5vw,36px); height: clamp(30px,2.5vw,36px); flex: none; display: grid; place-items: center;
   border-radius: 50%; border: 1.8px solid currentColor;
@@ -313,6 +315,31 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     url("../img/hero/hero-shell-182.png"),      /* bas centre-g */
     url("../img/hero/hero-lemon-right-145.png"),/* bas centre   */
     url("../img/hero/hero-shell-182.png"),      /* bas droite   */
+    url("../img/hero/hero-splash-135.png");
+  background-image:
+    image-set(url("../img/hero/hero-shell-182.avif") type("image/avif"),
+                    url("../img/hero/hero-shell-182.webp") type("image/webp"),
+                    image-set(url("../img/hero/hero-shell-182.avif") type("image/avif"),
+                    url("../img/hero/hero-shell-182.webp") type("image/webp"),
+                    image-set(url("../img/hero/hero-shell-182.avif") type("image/avif"),
+                    url("../img/hero/hero-shell-182.webp") type("image/webp"),
+                    url("../img/hero/hero-shell-182.png") type("image/png")) type("image/png")) type("image/png")),      /* haut gauche  */
+    image-set(url("../img/hero/hero-splash-135.avif") type("image/avif"),
+                    url("../img/hero/hero-splash-135.webp") type("image/webp"),
+                    image-set(url("../img/hero/hero-splash-135.avif") type("image/avif"),
+                    url("../img/hero/hero-splash-135.webp") type("image/webp"),
+                    url("../img/hero/hero-splash-135.png") type("image/png")) type("image/png")),     /* haut centre  */
+    image-set(url("../img/hero/hero-lemon-top-179.avif") type("image/avif"),
+                    url("../img/hero/hero-lemon-top-179.webp") type("image/webp"),
+                    url("../img/hero/hero-lemon-top-179.png") type("image/png")),  /* haut droite  */
+    image-set(url("../img/hero/hero-lemon-left-142.avif") type("image/avif"),
+                    url("../img/hero/hero-lemon-left-142.webp") type("image/webp"),
+                    url("../img/hero/hero-lemon-left-142.png") type("image/png")), /* milieu gauche*/
+    url("../img/hero/hero-shell-182.png"),      /* bas centre-g */
+    image-set(url("../img/hero/hero-lemon-right-145.avif") type("image/avif"),
+                    url("../img/hero/hero-lemon-right-145.webp") type("image/webp"),
+                    url("../img/hero/hero-lemon-right-145.png") type("image/png")),/* bas centre   */
+    url("../img/hero/hero-shell-182.png"),      /* bas droite   */
     url("../img/hero/hero-splash-135.png");     /* bas gauche   */
   background-position: 26% 22%, 62% 23%, 84% 17%, 8% 60%, 38% 76%, 66% 70%, 90% 74%, 13% 90%;
   background-size: 7.5%, 5.4%, 6.2%, 6.6%, 7.5%, 5.6%, 7%, 6.4%;
@@ -392,11 +419,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   order: 1; width: clamp(190px, 52vw, 300px); aspect-ratio: 1;
   display: grid; place-items: center;
   background: radial-gradient(circle at 50% 52%,
-              var(--c-cream-100) 0 58%, rgba(206,188,178,.22) 72%, transparent 73%);
+              var(--c-cream-100) 0 58%, var(--halo-hub) 72%, transparent 73%);
   border-radius: 50%;
 }
 .wheel__hub img { width: 92%; height: 92%; object-fit: contain;
-                  filter: drop-shadow(0 22px 26px rgba(110,82,71,.22)); }
+                  filter: var(--glow-hub); }
 .wheel__count { order: 3; font-size: var(--t-micro); color: var(--fg-muted);
                 letter-spacing: .12em; font-variant-numeric: tabular-nums; }
 .wheel__count b { color: var(--fg-title); font-weight: 700; }
@@ -548,6 +575,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
       url("../img/hero/hero-shell-182.png"),
       url("../img/hero/hero-lemon-top-179.png"),
       url("../img/hero/hero-lemon-left-142.png");
+  background-image:
+      image-set(url("../img/hero/hero-shell-182.avif") type("image/avif"),
+                    url("../img/hero/hero-shell-182.webp") type("image/webp"),
+                    url("../img/hero/hero-shell-182.png") type("image/png")),
+      image-set(url("../img/hero/hero-lemon-top-179.avif") type("image/avif"),
+                    url("../img/hero/hero-lemon-top-179.webp") type("image/webp"),
+                    url("../img/hero/hero-lemon-top-179.png") type("image/png")),
+      image-set(url("../img/hero/hero-lemon-left-142.avif") type("image/avif"),
+                    url("../img/hero/hero-lemon-left-142.webp") type("image/webp"),
+                    url("../img/hero/hero-lemon-left-142.png") type("image/png"));
     background-position: 92% 3%, 6% 40%, 90% 84%;
     background-size: 13%, 15%, 12%;
   }

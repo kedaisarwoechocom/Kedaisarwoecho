@@ -7,6 +7,26 @@
 <meta name="description" content="Rumah makan seafood di Pantai Pulang Sawal, Tepus, Gunungkidul. Lobster, kepiting, cumi dan ikan segar langsung dari laut ke meja Anda.">
 <meta name="theme-color" content="#F4EDE7">
 
+<!-- Content-Security-Policy en balise : GitHub Pages ne permet pas d'en-tetes HTTP.
+     Aucun script ni style en ligne, aucun domaine tiers hors la carte et la video. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; manifest-src 'self'; media-src 'self'; frame-src https://www.openstreetmap.org https://www.youtube-nocookie.com; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="canonical" href="https://kedaisarwoechocom.github.io/Kedaisarwoecho/">
+<meta property="og:type" content="restaurant.restaurant">
+<meta property="og:site_name" content="Kedai Sarwo Echo">
+<meta property="og:locale" content="id_ID">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:title" content="Kedai Sarwo Echo — Seafood Segar di Pantai Pulang Sawal">
+<meta property="og:description" content="Lobster, kepiting, cumi dan ikan segar, langsung dari laut ke meja Anda. Di tepi Pantai Pulang Sawal, Tepus, Gunungkidul.">
+<meta property="og:image" content="assets/img/brand/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- l'illustration du hero est le plus gros element visible : on la demande tot -->
+<link rel="preload" as="image" href="assets/img/hero/hero-plate-900.avif" type="image/avif"
+      imagesrcset="assets/img/hero/hero-plate-560.avif 560w, assets/img/hero/hero-plate-900.avif 900w, assets/img/hero/hero-plate-1400.avif 1400w"
+      imagesizes="(max-width:900px) 92vw, 58vw" fetchpriority="high">
+
 <link rel="icon" href="assets/img/brand/favicon.ico" sizes="any">
 <link rel="icon" href="assets/img/brand/favicon-96.png" type="image/png" sizes="96x96">
 <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
@@ -305,8 +325,8 @@
       </div>
 
       <div class="find__map">
-        <iframe id="fMap" title="Peta lokasi Kedai Sarwo Echo" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
+        <iframe id="fMap" title="Peta lokasi Kedai Sarwo Echo" loading="lazy" tabindex="-1"
+                aria-hidden="true" referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
         <p class="find__mapnote" id="fMapNote" hidden data-i18n="find.mapNote">Titik peta masih perkiraan.</p>
       </div>
     </div>
@@ -356,7 +376,7 @@
 </div><!-- /page -->
 
 <!-- sprite SVG -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
   <symbol id="i-wa" viewBox="0 0 24 24">
     <path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24M8.53 7.33c-.16 0-.43.06-.65.31-.22.24-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.72 2.75 4.23 3.76 2.09.83 2.52.66 2.97.62.46-.04 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.11-.23-.17-.48-.29s-1.47-.72-1.7-.81c-.22-.08-.39-.12-.55.12-.16.25-.63.81-.77.98-.14.16-.28.18-.53.06-.24-.13-1.03-.38-1.97-1.22-.73-.65-1.22-1.45-1.36-1.7-.14-.24-.02-.37.11-.5.11-.11.24-.28.37-.42.12-.15.16-.25.24-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47Z"/>
   </symbol>
