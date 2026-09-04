@@ -1,0 +1,562 @@
+[
+  {
+    "file": "2.png",
+    "w": 1751,
+    "h": 1548,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      18,
+      17,
+      1726,
+      1525
+    ],
+    "content_w": 1708,
+    "content_h": 1508,
+    "fill_pct": 43.3,
+    "lapvar": 349.5,
+    "bytes": 2896464,
+    "upscale": false,
+    "why": "\u2014"
+  },
+  {
+    "file": "ayam bakar.png",
+    "w": 940,
+    "h": 958,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      53,
+      46,
+      906,
+      895
+    ],
+    "content_w": 853,
+    "content_h": 849,
+    "fill_pct": 78.0,
+    "lapvar": 804.2,
+    "bytes": 966301,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "cah kangkung.png",
+    "w": 958,
+    "h": 970,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      33,
+      39,
+      916,
+      920
+    ],
+    "content_w": 883,
+    "content_h": 881,
+    "fill_pct": 78.2,
+    "lapvar": 1260.7,
+    "bytes": 1197999,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "cumi asam manis.png",
+    "w": 669,
+    "h": 659,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      52,
+      48,
+      617,
+      617
+    ],
+    "content_w": 565,
+    "content_h": 569,
+    "fill_pct": 77.9,
+    "lapvar": 1835.0,
+    "bytes": 560191,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "cumi crispy.png",
+    "w": 944,
+    "h": 938,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      49,
+      44,
+      899,
+      883
+    ],
+    "content_w": 850,
+    "content_h": 839,
+    "fill_pct": 78.0,
+    "lapvar": 895.9,
+    "bytes": 937959,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "Exemple-de-menu.png",
+    "w": 1386,
+    "h": 861,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      0,
+      0,
+      1386,
+      861
+    ],
+    "content_w": 1386,
+    "content_h": 861,
+    "fill_pct": 100.0,
+    "lapvar": 659.6,
+    "bytes": 162098,
+    "upscale": false,
+    "why": "\u2014"
+  },
+  {
+    "file": "halo.jpeg",
+    "w": 1440,
+    "h": 1024,
+    "mode": "RGB",
+    "alpha": false,
+    "bbox": [
+      0,
+      0,
+      1440,
+      1024
+    ],
+    "content_w": 1440,
+    "content_h": 1024,
+    "fill_pct": 100.0,
+    "lapvar": 1171.8,
+    "bytes": 247469,
+    "upscale": false,
+    "why": "\u2014"
+  },
+  {
+    "file": "ikan bakar.png",
+    "w": 905,
+    "h": 944,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      28,
+      45,
+      876,
+      873
+    ],
+    "content_w": 848,
+    "content_h": 828,
+    "fill_pct": 77.7,
+    "lapvar": 1139.2,
+    "bytes": 1180470,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "ikan goreng sambal bawang.png",
+    "w": 972,
+    "h": 956,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      43,
+      75,
+      933,
+      895
+    ],
+    "content_w": 890,
+    "content_h": 820,
+    "fill_pct": 76.0,
+    "lapvar": 1530.9,
+    "bytes": 1090187,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "ikan goreng.png",
+    "w": 954,
+    "h": 912,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      41,
+      18,
+      894,
+      874
+    ],
+    "content_w": 853,
+    "content_h": 856,
+    "fill_pct": 78.9,
+    "lapvar": 834.7,
+    "bytes": 1063153,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "kapiting saos asam manis.png",
+    "w": 1064,
+    "h": 691,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      29,
+      58,
+      1028,
+      643
+    ],
+    "content_w": 999,
+    "content_h": 585,
+    "fill_pct": 77.6,
+    "lapvar": 702.6,
+    "bytes": 857710,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "kentang goreng.png",
+    "w": 925,
+    "h": 948,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      32,
+      40,
+      906,
+      912
+    ],
+    "content_w": 874,
+    "content_h": 872,
+    "fill_pct": 78.0,
+    "lapvar": 513.6,
+    "bytes": 1012220,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "kerang asam manis.png",
+    "w": 946,
+    "h": 946,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      23,
+      56,
+      910,
+      892
+    ],
+    "content_w": 887,
+    "content_h": 836,
+    "fill_pct": 77.9,
+    "lapvar": 825.0,
+    "bytes": 1029453,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "lobster saos asam manis (2).png",
+    "w": 957,
+    "h": 655,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      44,
+      76,
+      933,
+      597
+    ],
+    "content_w": 889,
+    "content_h": 521,
+    "fill_pct": 77.5,
+    "lapvar": 691.8,
+    "bytes": 687489,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "lobster saos asam manis pedas.png",
+    "w": 1054,
+    "h": 1043,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      25,
+      25,
+      1006,
+      987
+    ],
+    "content_w": 981,
+    "content_h": 962,
+    "fill_pct": 78.0,
+    "lapvar": 966.9,
+    "bytes": 1389519,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "logo-short.png",
+    "w": 94,
+    "h": 87,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      5,
+      3,
+      90,
+      83
+    ],
+    "content_w": 85,
+    "content_h": 80,
+    "fill_pct": 55.0,
+    "lapvar": 6219.2,
+    "bytes": 9948,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "logo.png",
+    "w": 354,
+    "h": 162,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      34,
+      17,
+      323,
+      145
+    ],
+    "content_w": 289,
+    "content_h": 128,
+    "fill_pct": 18.8,
+    "lapvar": 3629.2,
+    "bytes": 23743,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "mangut lele.png",
+    "w": 914,
+    "h": 928,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      15,
+      55,
+      886,
+      894
+    ],
+    "content_w": 871,
+    "content_h": 839,
+    "fill_pct": 79.8,
+    "lapvar": 1408.7,
+    "bytes": 1206719,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "nasi ayam goreng.png",
+    "w": 909,
+    "h": 917,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      41,
+      56,
+      877,
+      867
+    ],
+    "content_w": 836,
+    "content_h": 811,
+    "fill_pct": 78.0,
+    "lapvar": 1079.5,
+    "bytes": 903376,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "nasi goreng telur.png",
+    "w": 972,
+    "h": 893,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      48,
+      80,
+      956,
+      832
+    ],
+    "content_w": 908,
+    "content_h": 752,
+    "fill_pct": 77.5,
+    "lapvar": 1402.8,
+    "bytes": 984427,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "nasi pecel telur dadar.png",
+    "w": 902,
+    "h": 921,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      14,
+      39,
+      865,
+      889
+    ],
+    "content_w": 851,
+    "content_h": 850,
+    "fill_pct": 78.1,
+    "lapvar": 863.3,
+    "bytes": 918593,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "seafood tumpah.png",
+    "w": 913,
+    "h": 870,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      39,
+      43,
+      867,
+      847
+    ],
+    "content_w": 828,
+    "content_h": 804,
+    "fill_pct": 77.9,
+    "lapvar": 1148.2,
+    "bytes": 1201293,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "section2.jpeg",
+    "w": 1520,
+    "h": 883,
+    "mode": "RGB",
+    "alpha": false,
+    "bbox": [
+      0,
+      0,
+      1520,
+      883
+    ],
+    "content_w": 1520,
+    "content_h": 883,
+    "fill_pct": 100.0,
+    "lapvar": 401.9,
+    "bytes": 90648,
+    "upscale": false,
+    "why": "\u2014"
+  },
+  {
+    "file": "sop sayur.png",
+    "w": 863,
+    "h": 819,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      36,
+      48,
+      830,
+      787
+    ],
+    "content_w": 794,
+    "content_h": 739,
+    "fill_pct": 77.3,
+    "lapvar": 777.0,
+    "bytes": 784629,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "tahu goreng.png",
+    "w": 959,
+    "h": 959,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      39,
+      45,
+      926,
+      903
+    ],
+    "content_w": 887,
+    "content_h": 858,
+    "fill_pct": 77.8,
+    "lapvar": 679.5,
+    "bytes": 995967,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "tempe goreng.png",
+    "w": 898,
+    "h": 782,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      37,
+      80,
+      860,
+      723
+    ],
+    "content_w": 823,
+    "content_h": 643,
+    "fill_pct": 75.4,
+    "lapvar": 590.4,
+    "bytes": 652956,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "tumis kangkung.png",
+    "w": 725,
+    "h": 695,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      52,
+      48,
+      667,
+      659
+    ],
+    "content_w": 615,
+    "content_h": 611,
+    "fill_pct": 78.0,
+    "lapvar": 2231.0,
+    "bytes": 591134,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  },
+  {
+    "file": "udang asam manis.png",
+    "w": 730,
+    "h": 726,
+    "mode": "RGBA",
+    "alpha": true,
+    "bbox": [
+      30,
+      53,
+      683,
+      698
+    ],
+    "content_w": 653,
+    "content_h": 645,
+    "fill_pct": 77.8,
+    "lapvar": 670.3,
+    "bytes": 614667,
+    "upscale": true,
+    "why": "r\u00e9solution"
+  }
+]

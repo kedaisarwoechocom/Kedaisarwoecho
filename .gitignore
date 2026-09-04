@@ -1,0 +1,6 @@
+# sources lourdes et intermediaires de build — non publies
+build/
+wetransfer_kedai-sarwo-echo_2026-09-04_0958.zip
+tools/__pycache__/
+.DS_Store
+Thumbs.db
