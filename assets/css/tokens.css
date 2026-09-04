@@ -64,6 +64,8 @@
   --dur-1: .18s; --dur-2: .32s; --dur-3: .55s;
 
   --wrap-max: 1440px;   /* largeur des maquettes */
+  --content-max: 1400px;  /* colonne de contenu partagee par TOUTES les sections,
+                             pour que les bords s'alignent d'une section a l'autre */
   --panel-max: 1760px;  /* pleine largeur ; au-dela le contenu se centre sur du creme */
   --tap: 44px;          /* cible tactile minimale */
 

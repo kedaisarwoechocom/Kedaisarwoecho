@@ -1,0 +1,75 @@
+{
+  "_lisez_moi": [
+    "CONTENU DU SITE HORS MENU. Les prix et les plats sont dans data/menu.json.",
+    "Ne touchez a aucun fichier .html, .css ou .js.",
+    "",
+    "horaires        : une ligne par jour. Laissez 'ferme' pour un jour de fermeture.",
+    "horaires_confirmes : false = le site affiche une mention 'a confirmer'.",
+    "                     Passez a true quand vous aurez verifie les horaires.",
+    "galerie         : vos photos du lieu. Deposez les fichiers dans",
+    "                  assets/img/lieu/ puis ajoutez-les ici. Tant que la liste est",
+    "                  vide, la section Galerie ne s'affiche pas du tout.",
+    "                  N'utilisez QUE vos propres photos : celles des avis Google",
+    "                  appartiennent a leurs auteurs.",
+    "avis            : citations de clients. Laissez vide si vous n'en avez pas ;",
+    "                  la note globale s'affiche quand meme.",
+    "video_youtube   : identifiant de la video (la partie apres v= dans l'URL).",
+    "                  Vide = pas de video affichee.",
+    "",
+    "Apres modification, rechargez la page. Rien d autre a faire."
+  ],
+
+  "histoire": {
+    "titre_id": "Cerita Kami",
+    "titre_en": "Our Story",
+    "accent_id": "di tepi Pantai Pulang Sawal",
+    "accent_en": "on the shore of Pulang Sawal",
+    "texte_id": [
+      "Kedai Sarwo Echo berdiri di tepi Pantai Pulang Sawal, di antara tebing karang Tepus. Dari dapur kami, laut hanya berjarak beberapa langkah — dan itulah seluruh rahasianya.",
+      "Hasil laut kami datang dari perahu yang bersandar pagi itu juga. Lobster, kepiting, cumi dan ikan dipilih satu per satu, lalu dimasak dengan bumbu yang tidak berubah sejak hari pertama."
+    ],
+    "texte_en": [
+      "Kedai Sarwo Echo sits on the shore of Pulang Sawal beach, among the limestone cliffs of Tepus. From our kitchen the sea is a few steps away — and that is the whole secret.",
+      "Our catch comes off the boats that land that same morning. Lobster, crab, squid and fish are picked one by one, then cooked with the spices we have used since the first day."
+    ],
+    "reperes": [
+      { "cle_id": "Di tepi pantai",   "cle_en": "Right on the beach",  "valeur_id": "Pantai Pulang Sawal, Tepus", "valeur_en": "Pulang Sawal beach, Tepus" },
+      { "cle_id": "Tangkapan harian", "cle_en": "Landed daily",        "valeur_id": "Langsung dari perahu pagi",   "valeur_en": "Straight off the morning boats" },
+      { "cle_id": "Hidangan",         "cle_en": "Dishes",              "valeur_id": "22 pilihan di menu",          "valeur_en": "22 dishes on the menu" }
+    ]
+  },
+
+  "avis": {
+    "note": 4.3,
+    "nombre": 92,
+    "source_id": "ulasan di Google",
+    "source_en": "reviews on Google",
+    "lien": "https://www.google.com/maps/search/?api=1&query=Kedai+Sarwo+Echo+Pantai+Pulang+Sawal+Tepus",
+    "citations": []
+  },
+
+  "lieu": {
+    "adresse_l1": "Kompleks Pantai Pulang Sawal",
+    "adresse_l2": "Jl. Pantai Sel. Jawa, Tepus",
+    "adresse_l3": "Kabupaten Gunung Kidul, DI Yogyakarta 55881",
+    "latitude": -8.1514,
+    "longitude": 110.6120,
+    "coordonnees_a_verifier": true,
+    "lien_itineraire": "https://www.google.com/maps/dir/?api=1&destination=Kedai+Sarwo+Echo+Pantai+Pulang+Sawal+Tepus+Gunungkidul",
+    "facebook": "",
+    "instagram": "",
+    "horaires_confirmes": false,
+    "horaires": [
+      { "jour_id": "Senin",  "jour_en": "Monday",    "h": "09.00 – 21.00" },
+      { "jour_id": "Selasa", "jour_en": "Tuesday",   "h": "09.00 – 21.00" },
+      { "jour_id": "Rabu",   "jour_en": "Wednesday", "h": "09.00 – 21.00" },
+      { "jour_id": "Kamis",  "jour_en": "Thursday",  "h": "09.00 – 21.00" },
+      { "jour_id": "Jumat",  "jour_en": "Friday",    "h": "09.00 – 21.00" },
+      { "jour_id": "Sabtu",  "jour_en": "Saturday",  "h": "08.00 – 22.00" },
+      { "jour_id": "Minggu", "jour_en": "Sunday",    "h": "08.00 – 22.00" }
+    ]
+  },
+
+  "galerie": [],
+  "video_youtube": ""
+}

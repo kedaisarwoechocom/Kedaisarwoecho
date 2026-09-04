@@ -66,13 +66,34 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   overflow: clip;
 }
 
+/* Colonne de contenu commune : meme bord gauche et droit dans toutes les
+   sections, quelle que soit la largeur de l'ecran.                          */
+.nav, .hero, .why, .menu {
+  max-width: calc(var(--content-max) + 2 * var(--pad-x));
+  margin-inline: auto;
+}
+
 /* ══════════════ NAVIGATION ══════════════ */
 .nav {
   display: flex; align-items: center;
   gap: clamp(12px, 2vw, 28px);
   min-height: 62px;
-  padding: clamp(14px, 2.6vw, 40px) var(--pad-x) 0;
-  position: relative; z-index: 20;
+  padding: clamp(10px, 1.3vw, 20px) var(--pad-x) clamp(6px, .8vw, 12px);
+  position: sticky; top: 0; z-index: 40;
+  transition: padding var(--dur-2) var(--ease-out);
+}
+/* la bande de fond deborde jusqu'aux bords de l'ecran : sans ca, le contenu
+   defilerait a nu de chaque cote de la colonne pendant que la nav reste collee. */
+.nav::before {
+  content: ""; position: absolute; inset: 0 50% 0 50%;
+  width: 100vw; transform: translateX(-50%); z-index: -1;
+  background: var(--bg-panel);
+  box-shadow: 0 1px 0 rgba(206,188,178,0), 0 10px 26px -20px rgba(110,82,71,0);
+  transition: box-shadow var(--dur-2) var(--ease-out);
+}
+.nav.is-stuck { padding-top: clamp(8px, .9vw, 12px); padding-bottom: clamp(8px, .9vw, 12px); }
+.nav.is-stuck::before {
+  box-shadow: 0 1px 0 rgba(206,188,178,.7), 0 10px 26px -20px rgba(110,82,71,.5);
 }
 .nav__logo { flex: none; display: block; }
 .nav__logo img { width: clamp(48px, 4.6vw, 66px); height: auto; }
@@ -254,7 +275,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .why__grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: clamp(16px, 3.1vw, 45px);
-  max-width: 1339px; margin-inline: auto;
   margin-top: clamp(26px, 5.9vw, 85px);
   position: relative; z-index: 2;
 }
