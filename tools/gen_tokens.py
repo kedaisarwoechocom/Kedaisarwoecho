@@ -4,13 +4,17 @@ Les tailles desktop sont MESUREES sur halo.jpeg/section2.jpeg (viewport 1440).
 Les tailles mobile sont CONCUES (360), pas deduites d'une reduction.
 """
 from pathlib import Path
-VMIN, VMAX = 360, 1440
+VMIN, VMAX, VCEIL = 360, 1440, 1760
 def clamp(lo, hi, unit="rem"):
-    """clamp fluide entre VMIN et VMAX, en rem (base 16)."""
+    """Echelle fluide. La PENTE est ancree sur les valeurs mesurees a 360 et 1440,
+    donc le rendu a 1440 reste exactement celui des maquettes ; le plafond est
+    repousse a VCEIL pour que les grands ecrans continuent de grandir au lieu
+    de figer un texte trop petit face a une illustration qui, elle, s'agrandit."""
     if lo == hi: return f"{lo/16:.4g}rem"
     slope = (hi-lo)/(VMAX-VMIN)
     inter = lo - VMIN*slope
-    return f"clamp({lo/16:.4g}rem, {inter/16:.4g}rem + {slope*100:.4g}vw, {hi/16:.4g}rem)"
+    top = lo + slope*(VCEIL-VMIN)
+    return f"clamp({lo/16:.4g}rem, {inter/16:.4g}rem + {slope*100:.4g}vw, {top/16:.4g}rem)"
 
 # nom: (mobile 360, desktop 1440)  -- desktop mesure sur maquette
 TYPE = {
@@ -77,7 +81,7 @@ A("  --ease-soft: cubic-bezier(.32,.72,0,1);")
 A("  --dur-1: .18s; --dur-2: .32s; --dur-3: .55s;")
 A("")
 A("  --wrap-max: 1440px;   /* largeur des maquettes */")
-A("  --panel-max: 1316px;  /* panneau creme mesure: 1316 de 1440 */")
+A("  --panel-max: 1760px;  /* pleine largeur ; au-dela le contenu se centre sur du creme */")
 A("  --tap: 44px;          /* cible tactile minimale */")
 A("")
 A("  /* ---------- COUCHE 2 — SEMANTIQUES ---------- */")
