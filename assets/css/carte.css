@@ -97,13 +97,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .carte {
   display: grid; grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: "img corps" "img action";
+  grid-template-areas: "img corps";
   column-gap: 14px; row-gap: 8px; align-content: start;
   padding: 14px; background: var(--bg-raised);
   border: 1px solid var(--line); border-radius: var(--r-md);
   transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
 }
-.carte.is-on { border-color: var(--btn-bg); box-shadow: var(--sh-card); }
 .carte__img {
   grid-area: img; width: clamp(84px, 22vw, 104px); aspect-ratio: 1;
   background: var(--bg-card); border-radius: var(--r-sm);
@@ -125,20 +124,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-size: var(--t-body); color: var(--price-fg);
 }
 .carte__prov { font-family: var(--f-body); font-weight: 400; font-size: var(--t-micro); color: var(--fg-muted); }
-
-.carte__add {
-  grid-area: action; justify-self: start; align-self: end;
-  min-height: var(--tap); min-width: var(--tap);
-  display: inline-flex; align-items: center; gap: 8px; padding: 0 16px;
-  border: 1.5px solid var(--btn-bg); border-radius: var(--r-pill);
-  color: var(--btn-bg); font-weight: 700; font-size: var(--t-body-sm);
-  transition: background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out),
-              transform var(--dur-1) var(--ease-out);
-}
-.carte__add svg { width: 18px; height: 18px; }
-.carte__add:hover { background: var(--bg-card); }
-.carte__add:active { transform: scale(.96); }
-.carte.is-on .carte__add { background: var(--btn-bg); color: var(--btn-fg); }
 
 .vide, .err {
   padding: clamp(30px, 6vw, 60px) clamp(16px, 4.4vw, 40px);
@@ -162,64 +147,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .cf__wa svg { width: 20px; height: 20px; }
 
-/* ---------- barre de commande ---------- */
-.panier {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  padding: 12px clamp(16px, 4.4vw, 40px) calc(12px + env(safe-area-inset-bottom));
-  background: var(--bg-raised);
-  border-top: 1px solid var(--line);
-  box-shadow: 0 -12px 30px -22px rgba(110, 82, 71, .7);
-  animation: monte var(--dur-2) var(--ease-out);
-}
-@keyframes monte { from { transform: translateY(100%); } }
-.panier__n { font-size: var(--t-body-sm); color: var(--fg-body); }
-.panier__n b { font-family: var(--f-display); font-weight: 800; font-size: var(--t-dish);
-               color: var(--fg-title); }
-/* Numero de table : sans lui la cuisine sait quoi preparer mais pas ou le
-   porter. Le champ est dans la barre, remplissable avant meme de commander. */
-.panier__meja { display: flex; align-items: center; gap: 9px; }
-.panier__meja label {
-  font-size: var(--t-body-sm); font-weight: 700; color: var(--fg-body);
-}
-.panier__meja input {
-  width: 68px; min-height: var(--tap); padding: 0 12px;
-  font: inherit; font-weight: 800; font-size: var(--t-body); text-align: center;
-  color: var(--fg-title); background: var(--bg-page);
-  border: 1.5px solid var(--line); border-radius: var(--r-sm);
-  transition: border-color var(--dur-1) var(--ease-out);
-}
-.panier__meja input:focus-visible {
-  outline: 3px solid var(--focus); outline-offset: 2px; border-color: transparent;
-}
-.panier__aide {
-  display: none; flex-basis: 100%; margin: 0;
-  font-size: var(--t-body-sm); color: var(--fg-accent);
-}
-/* n'apparait qu'au moment ou l'envoi est tente sans numero */
-.panier.is-manquant .panier__aide { display: block; }
-.panier.is-manquant .panier__meja input { border-color: var(--fg-accent); }
-
-.panier__b { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.panier__vider {
-  min-height: var(--tap); padding: 0 14px; border-radius: var(--r-pill);
-  font-size: var(--t-body-sm); font-weight: 700; color: var(--fg-muted);
-}
-.panier__vider:hover { color: var(--fg-accent); }
-.panier__cta {
-  min-height: var(--tap); padding: 0 clamp(18px, 4vw, 28px);
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--btn-bg); color: var(--btn-fg);
-  border-radius: var(--r-pill); font-weight: 700;
-  box-shadow: var(--sh-btn);
-  transition: background var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
-}
-.panier__cta:hover { background: var(--btn-bg-hover); }
-.panier__cta:active { transform: scale(.97); }
-.panier__cta svg { width: 20px; height: 20px; }
-
-/* Revenir en haut : efface au repos, apparait des que la page defile.
-   Il remonte au-dessus de la barre de commande quand elle est affichee. */
+/* Revenir en haut : efface au repos, apparait des que la page defile. */
 .totop {
   position: fixed; right: clamp(14px, 2.4vw, 28px);
   bottom: calc(clamp(14px, 2.4vw, 28px) + env(safe-area-inset-bottom));
@@ -241,17 +169,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .totop:hover { background: var(--btn-bg-hover); }
 .totop:active { transform: scale(.94); }
 .totop svg { width: 22px; height: 22px; }
-#panier:not([hidden]) ~ .totop {
-  bottom: calc(clamp(14px, 2.4vw, 28px) + 82px + env(safe-area-inset-bottom));
-}
-
-@media (max-width: 380px) {
-  .panier { gap: 8px; }
-  .panier__vider { padding: 0 8px; }
-  .panier__meja label { font-size: var(--t-micro); }
-  .panier__meja input { width: 58px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

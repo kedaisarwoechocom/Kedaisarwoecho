@@ -1,4 +1,5 @@
-/* Verifie le parcours de la carte numerique : filtres, selection, message WhatsApp. */
+/* Verifie la carte numerique : affichage des plats, filtres, langue, remontee.
+   La carte presente le menu, elle ne prend pas de commande. */
 import { spawn } from 'node:child_process';
 import { setTimeout as sleep } from 'node:timers/promises';
 
@@ -45,34 +46,26 @@ const ev = async expr => (await S('Runtime.evaluate', { returnByValue: true, exp
 console.log(`CARTE NUMERIQUE a ${W}px`);
 let v = await ev(`({ cartes: document.querySelectorAll('.carte').length,
                      chips: document.querySelectorAll('.chip').length,
-                     panierMasque: document.querySelector('#panier').hidden,
+                     images: document.querySelectorAll('.carte__img img').length,
+                     sansAlt: [...document.querySelectorAll('.carte__img img')].filter(i => !i.alt).length,
+                     boutons: document.querySelectorAll('.carte__add, #panier, #meja').length,
                      debord: document.documentElement.scrollWidth - document.documentElement.clientWidth })`);
-console.log(`  depart : ${v.cartes} cartes, ${v.chips} filtres, panier ${v.panierMasque ? 'masque' : 'visible'}, debordement ${v.debord}px`);
-
-await ev(`[...document.querySelectorAll('.carte__add')].slice(0,3).forEach(b => b.click())`);
-await sleep(400);
-v = await ev(`(() => {
-  const a = document.querySelector('#panierCta');
-  return { nb: document.querySelector('#panierNb').textContent,
-           mot: document.querySelector('#panierMot').textContent,
-           masque: document.querySelector('#panier').hidden,
-           msg: decodeURIComponent((a.href.split('text=')[1] || '')),
-           coches: document.querySelectorAll('.carte.is-on').length };
-})()`);
-console.log(`  3 plats choisis : compteur "${v.nb} ${v.mot}", panier ${v.masque ? 'MASQUE (bug)' : 'visible'}, ${v.coches} cartes cochees`);
-console.log('  message WhatsApp genere :');
-v.msg.split('\n').forEach(l => console.log('    | ' + l));
+console.log(`  depart : ${v.cartes} cartes, ${v.chips} filtres, ${v.images} photos, debordement ${v.debord}px`);
+console.log(`  reliquat de commande (bouton, panier, table) : ${v.boutons === 0 ? 'aucun' : v.boutons + ' TROUVE(S) - a retirer'}`);
+console.log(`  photos sans texte alternatif : ${v.sansAlt === 0 ? 'aucune' : v.sansAlt}`);
 
 await ev(`document.querySelector('.chip[data-cat="nasi"]').click()`);
 await sleep(350);
 v = await ev(`({ cartes: document.querySelectorAll('.carte').length,
-                 actif: document.querySelector('.chip[aria-pressed="true"]').textContent.trim(),
-                 panier: document.querySelector('#panierNb').textContent })`);
-console.log(`  filtre "${v.actif}" : ${v.cartes} cartes affichees, selection conservee a ${v.panier}`);
+                 actif: document.querySelector('.chip[aria-pressed="true"]').textContent.trim() })`);
+console.log(`  filtre "${v.actif}" : ${v.cartes} cartes affichees`);
 
-await ev(`document.querySelector('#panierVider').click()`);
-await sleep(300);
-console.log(`  apres vidage : panier ${await ev(`document.querySelector('#panier').hidden`) ? 'masque' : 'ENCORE VISIBLE (bug)'}`);
+await ev(`document.querySelector('.chip[data-cat="all"]').click()`);
+await sleep(350);
+console.log(`  retour a "Semua" : ${await ev(`document.querySelectorAll('.carte').length`)} cartes`);
+
+const titre = await ev(`document.querySelector('.intro__d').textContent.trim()`);
+console.log(`  texte d accueil : "${titre}"`);
 
 const petites = await ev(`[...document.querySelectorAll('a[href],button')].filter(el => el.offsetParent !== null)
   .map(el => { const r = el.getBoundingClientRect(); return { n: el.className || el.tagName, w: Math.round(r.width), h: Math.round(r.height) }; })
